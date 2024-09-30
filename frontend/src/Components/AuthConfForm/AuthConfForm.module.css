@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+
+.smsContainer {
+  font-family: "Dela Gothic One";
+  background-color: #1f1f1f;
+  color: #fff;
+  border-radius: 15px;
+  padding: 100px 0px;
+  width: 33%;
+  text-align: center;
+}
+
+.smsTitle {
+  font-family: "Dela Gothic One";
+  font-size: 32px;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.phoneNumber {
+  font-size: 20px;
+  margin: 15px 0 30px 0;
+}
+
+.smsForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.codeInputs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.smsInput {
+  width: 50px;
+  height: 55px;
+  font-size: 24px;
+  text-align: center;
+  border: none;
+  border-radius: 40%;
+  background-color: white;
+  margin: 0 5px;
+}
+
+.smsButton {
+  background-color: #DD7600;
+  color: white;
+  padding: 15px 50px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  transition:  all 0.5s ease-in;
+  font-weight: bold;
+  margin: 15px;
+}
+
+.smsButton:hover {
+  background-color: rgb(229, 53, 0);
+}
+
+.resendSms {
+  /* font-family: Alexandria; */
+  font-size: 16px;
+  color: #d3d3d3;
+  margin-top: 20px;
+  cursor: pointer;
+  text-decoration: underline;
+  transition:  all 0.2s linear;
+}
+
+.resendSms:hover {
+  color: white;
+}
+
+.loginWithOther {
+  /* font-family: Alexandria; */
+  font-size: 16px;
+  color: #d3d3d3;
+  margin-top: 10px;
+  cursor: pointer;
+  text-decoration: underline;
+  transition:  all 0.2s linear;
+}
+
+.loginWithOther:hover {
+  color: white;
+}

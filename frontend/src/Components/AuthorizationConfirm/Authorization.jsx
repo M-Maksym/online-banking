@@ -1,9 +1,9 @@
 import React from 'react'
 import classes from './Authorization.module.css'
 import ExcRate from '../ExchangeRate/ExchangeRate'
-import Auth from '../AuthForm/AuthForm'
 import Left from '../LeftSite/Left'
 import ContactInfo from '../ContactInfo/ContactInfo'
+import AuthConfForm from '../AuthConfForm/AuthConfForm';
 
 const Authorization = () => {
   return (
@@ -13,7 +13,7 @@ const Authorization = () => {
       </div>
       <div className={classes.siteContainer}>
         <Left/>
-        <Auth/>
+        <AuthConfForm/>
       </div>
       <div>
         <ContactInfo/>
