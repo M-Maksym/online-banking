@@ -1,11 +1,9 @@
 import React from 'react'
 import './advantage.css'
-import MainHeader from '../MainHeader/MainHeader'
 
 export default function Advantages() {
   return (
     <div className='advcontainer'>
-      <MainHeader />
 <div className="advelement">
 <div className="advtitle">ЗАХИСТ ВіД ШАХРАЇВ</div>
 <div className="advblock">
