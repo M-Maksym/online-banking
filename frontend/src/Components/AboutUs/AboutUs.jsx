@@ -1,10 +1,8 @@
 import React from 'react'
 import './aboutus.css'
-import MainHeader from '../MainHeader/MainHeader'
 export default function AboutUs() {
   return (
     <div className="container">
-      <MainHeader />
       <div class="block-1">
         <p className='aboutblock1text'>
       Ласкаво просимо до CHINAZESBANK – вашого надійного фінансового партнера! Наш інтернет-банк пропонує сучасні рішення для швидкого, безпечного й зручного управління вашими фінансами з будь-якого місця і в будь-який час.
