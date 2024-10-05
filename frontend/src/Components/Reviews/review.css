@@ -1,0 +1,74 @@
+.revcontainer{
+
+    display:flex;
+    margin-right: auto;
+    margin-top: 37px;
+    margin-left: auto;
+    max-width: 1677px;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.revblockcontainer{
+    background-color: gray;
+    height: 399px;
+    max-width: 790px;
+    width: 100%;
+    border-radius: 40px;
+    margin-bottom: 60px;
+
+}
+.headblock{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+}
+.revpart1{
+    width: 149px;
+    height: 114px;
+    background-color: aliceblue;
+    border-radius: 50%;
+    background-size:cover;
+background-repeat: no-repeat;
+
+
+}
+.revava{
+    width: 100%;
+    height: 100%;
+    object-fit:fill;
+    display: block;
+}
+.revpart2{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.stars{
+width: 302px;
+height:33px;
+display: flex;
+}
+.star{
+    width:60.5px ;
+    height:33px;
+    background-image: url("../../images/star.png");
+    background-size:cover;
+background-repeat: no-repeat;
+
+}
+.revtext{
+    font-family: Dela;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right:10px;
+    padding-left:10px;
+
+}
+.revName{
+    font-family: Dela;
+    font-size: 24px; 
+}
