@@ -17,8 +17,8 @@ function App() {
     //     <Route path="/AuthorizationConfirm" element={<AuthorizationConfirm />} />
     //   </Routes>
     //   </BrowserRouter>
-    // <Authorization/>
-    <AuthorizationConfirm />
+    <Authorization/>
+    // <AuthorizationConfirm />
   );
 }
 
