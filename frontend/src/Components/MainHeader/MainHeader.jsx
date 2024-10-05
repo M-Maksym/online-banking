@@ -29,14 +29,6 @@ export default function MainHeader() {
   </div>
   </div>
   </div>
-  <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Advantages />}/>
-          <Route path="/Reviews" element={<Reviews />}/>
-          <Route path="/AboutUs" element={<AboutUs />} />
-        <Route path="/Authorization" element={<Authorization />} />
-      </Routes>
-      </BrowserRouter>
 
 </>
   )
