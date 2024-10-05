@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+
+.container{
+    display: flex;
+    justify-content: flex-end;
+    background-color: #DD7600;
+}
+
+.rate{
+    font-family: "Dela Gothic One";
+    font-size: 16px;
+    margin: 25px 20px;
+}
+
+.rate>strong{
+    font-size: large;
+}

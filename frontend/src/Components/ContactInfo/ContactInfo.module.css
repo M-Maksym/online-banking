@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+  
+  .contactContainer {
+    font-family: Alexandria;
+    display: flex;
+    justify-content: space-around;
+    color: #fff;
+    background-color: #000;
+    padding-top: 15px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .contactItem {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 0.5;
+  }
+  
+  span {
+    margin: 0;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  
+  .contactNumber {
+    color: #DD7600;
+    font-weight: bold;
+  }
+  
+  .contactEmail {
+    color: #DD7600;
+    font-weight: bold;
+  }
+  
+  @media (max-width: 768px) {
+    .contactContainer {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .contactItem {
+      margin-bottom: 20px;
+    }
+  }  

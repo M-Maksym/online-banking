@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+/*
+.authFormContainer{
+    width: 33%;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    background-color: #1E1D1D;
+    color: white;
+    border-radius: 25px;
+    font-family: "Dela Gothic One";
+
+}
+
+.authForm{
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.authFormH1{
+    font-size: 48px;
+    letter-spacing: 3px;
+    line-height: 100%;
+}
+
+.authFormText1{
+    font-family: Alexandria;
+    font-size: 16px;
+} */
+  
+  .loginContainer {
+    background-color: #1f1f1f;
+    color: #fff;
+    padding: 100px 0px;
+    border-radius: 15px;
+    width: 33%;
+    /* height: 850px; */
+    text-align: center;
+  }
+  
+  .loginTitle {
+    font-family: "Dela Gothic One";
+    font-size: 48px;
+    letter-spacing: 3px;
+    line-height: 100%;
+    /* padding: 150px 25px 25px 25px; */
+    margin: 15px 25px;
+    margin: 0;
+  }
+  
+  .loginSubtitle {
+    font-size: 14px;
+    color: #fff;
+    margin: 25px 25px;
+  }
+  
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .loginInput {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 25px 25px;
+    font-size: 16px;
+    background-color: #9F9F9F;
+  }
+  
+  .loginButton {
+    font-family: Alexandria;
+    background-color: #DD7600;
+    color: black;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    width: 50%;
+    align-self: center;
+  }
+  
+  .loginButton:hover {
+    background-color: #e55d00;
+  }
+  
+  .loginFooter {
+    font-family: Alexandria;
+    font-size: 14px;
+    font-weight: 300;
+    color: #d3d3d3;
+    margin: 15px 25px;
+  }
