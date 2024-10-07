@@ -1,7 +1,5 @@
 import React from 'react'
-import AboutUs from '../AboutUs/AboutUs'
-import Advantages from '../Advantages/Advantages'
-import Reviews from '../Reviews/Reviews'
+
 import Authorization from '../Authorization/Authorization'
 import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import './mainheaderstyle.css'
@@ -29,15 +27,7 @@ export default function MainHeader() {
   </div>
   </div>
   </div>
-  <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Advantages />}/>
-          <Route path="/Reviews" element={<Reviews />}/>
-          <Route path="/AboutUs" element={<AboutUs />} />
-        <Route path="/Authorization" element={<Authorization />} />
-      </Routes>
-      </BrowserRouter>
-
+  
 </>
   )
 }
