@@ -1,0 +1,94 @@
+.main{
+    background-color: #2D2D2D;
+    padding: 30px 20px 70px 20px;
+    border-radius: 100px;
+}
+.card{
+    padding: 40px 20px;
+    background-color: plum;
+    border-radius: 30px;
+    height: 220px;
+}
+.balance{
+    font-family: Dela;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    color: rgba(255, 255, 255, .6);
+}
+.balanceNumber{
+    font-family: Dela;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 41px;
+    color: rgba(255, 255, 255, 1);
+    margin-top: 11px;
+}
+.card__infoNumber{
+    font-family: Dela;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    color: rgba(255, 255, 255, .8);
+}
+.card__infoDate{
+    font-family: Dela;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    color: rgba(255, 255, 255, 1);
+}
+.addInfo{
+    margin-top: auto;
+}
+.arrowDown{
+    margin: 20px 0px;
+}
+.operationBtnActive{
+    font-family: Dela;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    padding: 20px 0px;
+    background: #1A74C8;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    width:190px
+}
+.operationBtn{
+    font-family: Dela;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    padding: 20px 0px;
+    background: #C9700A;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    width:190px
+}
+.limit{
+    font-family: Dela;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 1);
+    margin-top: 20px;
+    margin-bottom: 4px;
+}
+.main__option{
+    font-family: Dela;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+}
+.option{
+    border-bottom: 1px solid #FFFFFF;
+    padding-bottom: 11px;
+    margin-bottom: 4px;
+}
+.optionLast{
+    padding-bottom: 11px;
+}
