@@ -1,13 +1,27 @@
 import React, { useState } from "react";
 import classes from "./AuthConfForm.module.css";
 
-const AuthConfForm = () => {
+const AuthConfForm = ({ number }) => {
   const [code, setCode] = useState(["", "", "", ""]);
+  const [phoneNumber, setPhoneNumber] = useState(number);
 
   const handleChange = (e, index) => {
-    const newCode = [...code];
-    newCode[index] = e.target.value;
-    setCode(newCode);
+    const { value } = e.target;
+    if (/^\d*$/.test(value)) {
+      const newCode = [...code];
+      newCode[index] = value;
+      setCode(newCode);
+
+      if (value && index < code.length - 1) {
+        e.target.nextSibling?.focus();
+      }
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !code[index] && index > 0) {
+      e.target.previousSibling?.focus();
+    }
   };
 
   const handleSubmit = (e) => {
@@ -18,7 +32,7 @@ const AuthConfForm = () => {
   return (
     <div className={classes.smsContainer}>
       <h1 className={classes.smsTitle}>Введіть код з SMS</h1>
-      <p className={classes.phoneNumber}>+380*****1487</p>
+      <p className={classes.phoneNumber}>{phoneNumber}</p>
       <form onSubmit={handleSubmit} className={classes.smsForm}>
         <div className={classes.codeInputs}>
           {code.map((digit, index) => (
@@ -28,6 +42,7 @@ const AuthConfForm = () => {
               maxLength="1"
               value={digit}
               onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
               className={classes.smsInput}
             />
           ))}

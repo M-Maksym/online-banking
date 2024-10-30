@@ -13,10 +13,11 @@ import Reviews from './Components/Reviews/Reviews';
 
 function App() {
   const location = useLocation();
+  const hideHeaderPaths = ["/Authorization", "/AuthorizationConfirm"];
 
   return (
     <>
-      {location.pathname !== '/Authorization' && <MainHeader />}
+      {!hideHeaderPaths.includes(location.pathname) && <MainHeader />}
       <Routes>
         <Route path="/" element={<AboutUs />} />
         <Route path="/Reviews" element={<Reviews />} />
