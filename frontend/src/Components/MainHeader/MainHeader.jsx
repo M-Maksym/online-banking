@@ -12,13 +12,13 @@ export default function MainHeader() {
       </div>
       <div className="links">
       <div className="nav_el">
-  <a  className='navtext' href="/">Наші переваги</a>
+  <a  className='navtext' href="/">Про нас</a>
   </div>
   <div className="nav_el">
   <a className='navtext' href="/Reviews">Відгуки</a>
   </div>
   <div className="nav_el">
-  <a className='navtext' href="/AboutUs">Про нас</a>
+  <a className='navtext' href="/Advantages">Наші переваги</a>
   </div>
   </div>
   <div className="nav_el">

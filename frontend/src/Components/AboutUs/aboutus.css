@@ -83,6 +83,48 @@ justify-content: center;
  align-items: center;
     
 }
+@media (max-width: 1600px) {
+    .container {
+        max-width: 1174px; /* уменьшено на 30% от 1677px */
+    }
+    .block-1 {
+        max-width: 574px; /* уменьшено на 30% от 820px */
+        height: 567px; /* уменьшено на 30% от 810px */
+        border-radius: 56px; /* уменьшено на 30% от 80px */
+    }
+    .aboutblock1text {
+        font-size: 22.4px; /* уменьшено на 30% от 32px */
+    }
+    .block-2 {
+        max-width: 574px; /* уменьшено на 30% от 820px */
+        height: 567px; /* уменьшено на 30% от 810px */
+    }
+    .sub-block-1 {
+        max-width: 515.2px; /* уменьшено на 30% от 736px */
+        height: 270.2px; /* уменьшено на 30% от 386px */
+        border-radius: 35px; /* уменьшено на 30% от 50px */
+    }
+    .sub-block-2 {
+        max-width: 515.6px; /* уменьшено на 30% от 738px */
+        height: 278.6px; /* уменьшено на 30% от 398px */
+        border-radius: 49px; /* уменьшено на 30% от 70px */
+    }
+    .part1 {
+        height: 210px; /* уменьшено на 30% от 300px */
+    }
+    .imgblock {
+        max-width: 408.1px; /* уменьшено на 30% от 583px */
+        height: 196.7px; /* уменьшено на 30% от 281px */
+        border-radius: 28px; /* уменьшено на 30% от 40px */
+    }
+    .mainbutton {
+        max-width: 352.1px; /* уменьшено на 30% от 503px */
+        height: 45.5px; /* уменьшено на 30% от 65px */
+        border-radius: 21px; /* уменьшено на 30% от 30px */
+        font-size: 16.8px; /* уменьшено на 30% от 24px */
+    }
+}
+
 
 
 

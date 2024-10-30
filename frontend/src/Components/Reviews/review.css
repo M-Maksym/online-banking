@@ -72,3 +72,42 @@ background-repeat: no-repeat;
     font-family: Dela;
     font-size: 24px; 
 }
+
+@media (max-width: 1600px) {
+    .revcontainer {
+        max-width: 1173.9px; /* уменьшено на 30% от 1677px */
+    }
+
+    .revblockcontainer {
+        height: 279.3px; /* уменьшено на 30% от 399px */
+        max-width: 553px; /* уменьшено на 30% от 790px */
+        border-radius: 28px; /* уменьшено на 30% от 40px */
+        margin-bottom: 42px; /* уменьшено на 30% от 60px */
+    }
+
+    .revpart1 {
+        width: 104.3px; /* уменьшено на 30% от 149px */
+        height: 79.8px; /* уменьшено на 30% от 114px */
+    }
+
+    .stars {
+        width: 211.4px; /* уменьшено на 30% от 302px */
+        height: 23.1px; /* уменьшено на 30% от 33px */
+    }
+
+    .star {
+        width: 42.4px; /* уменьшено на 30% от 60.5px */
+        height: 23.1px; /* уменьшено на 30% от 33px */
+    }
+
+    .revtext {
+        font-size: 21px; /* уменьшено на 30% от 30px */
+        padding-right: 7px; /* уменьшено на 30% от 10px */
+        padding-left: 7px; /* уменьшено на 30% от 10px */
+    }
+
+    .revName {
+        font-size: 16.8px; /* уменьшено на 30% от 24px */
+    }
+}
+
