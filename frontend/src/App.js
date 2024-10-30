@@ -43,6 +43,8 @@ import AboutUs from './Components/AboutUs/AboutUs'
 import Advantages from './Components/Advantages/Advantages'
 import Reviews from './Components/Reviews/Reviews'
 
+import Account from './Components/Account/AccountPage'
+
 function App() {
   const location = useLocation();
   const hideHeaderPaths = ["/Authorization", "/AuthorizationConfirm"];
@@ -59,6 +61,7 @@ function App() {
           <Route path="/Cards" element={<Cards />} />
         <Route path="/Authorization" element={<Authorization />} />
         <Route path="/AuthorizationConfirm" element={<AuthorizationConfirm />} />
+        <Route path="/Account" element={<Account />} /> 
       </Routes>
     </>
   );
