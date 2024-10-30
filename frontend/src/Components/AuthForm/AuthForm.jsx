@@ -1,12 +1,36 @@
 import React, { useState } from "react";
 import classes from "./AuthForm.module.css";
- 
+import { useNavigate } from "react-router-dom";
+
 const LoginForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const input = e.target.value;
+
+    if (/^[+]?\d*$/.test(input)) {
+      if (input.length <= 13) { 
+        setPhoneNumber(input);
+        setError('');
+      } else {
+        setError('Номер телефону не може бути довшим за 12 символів.');
+      }
+    } else {
+      setError('Вводьте лише цифри та символ "+".');
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Надіслано SMS на номер: ${phoneNumber}`);
+    if (!/^\+\d{12}$/.test(phoneNumber)) {
+      setError('Введіть коректний номер телефону у форматі +************ (12 символів)');
+      return;
+    }
+    setError('');
+
+    navigate("/AuthorizationConfirm", { state: { phoneNumber } });
   };
 
   return (
@@ -18,11 +42,13 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit} className={classes.loginForm}>
         <input
           type="text"
-          placeholder="Номер телефону"
+          placeholder="+************"
           value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          onChange={handleChange}
+          maxLength="13"
           className={classes.loginInput}
         />
+        {error && <p className={classes.error}>{error}</p>}
         <button type="submit" className={classes.loginButton}>Надіслати SMS</button>
       </form>
       <p className={classes.loginFooter}>

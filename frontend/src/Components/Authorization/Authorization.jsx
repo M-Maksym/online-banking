@@ -7,16 +7,18 @@ import ContactInfo from '../ContactInfo/ContactInfo'
 
 const Authorization = () => {
   return (
-    <div>
+    <div className={classes.container}>
       <div>
         <ExcRate/>
       </div>
-      <div className={classes.siteContainer}>
-        <Left/>
-        <Auth/>
-      </div>
-      <div>
-        <ContactInfo/>
+      <div className={classes.killME}>
+        <div className={classes.siteContainer}>
+          <Left/>
+          <Auth/>
+        </div>
+        <div className={classes.contactInfo}>
+          <ContactInfo/>
+        </div>
       </div>
     </div>
   )

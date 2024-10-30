@@ -34,7 +34,8 @@
     color: #fff;
     padding: 100px 0px;
     border-radius: 15px;
-    width: 33%;
+    width: 35%;
+    height: 75%;
     /* height: 850px; */
     text-align: center;
   }
@@ -72,7 +73,7 @@
   .loginButton {
     font-family: Alexandria;
     background-color: #DD7600;
-    color: black;
+    color: white;
     padding: 15px;
     border: none;
     border-radius: 5px;
