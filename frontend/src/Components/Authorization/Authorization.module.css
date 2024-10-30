@@ -4,8 +4,24 @@ body{
     background-color: black;
 }
 
+.container{
+    max-height: 100vh;
+}
+
+.killME{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
 .siteContainer{
     display: flex;
     justify-content: space-between;
+    flex-grow: 1;
     padding: 25px 50px 5px 25px;
+}
+
+.contactInfo{
+    margin-top: auto;
 }
