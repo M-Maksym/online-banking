@@ -48,3 +48,31 @@ height: 60px;
 background-size: cover;
 
 }
+@media (max-width: 1600px) {
+    .topnav {
+        max-width: 1173.9px; /* уменьшено на 30% от 1677px */
+        height: 61.6px; /* уменьшено на 30% от 88px */
+        border-radius: 35px; /* уменьшено на 30% от 50px */
+        margin-top: 25.9px; /* уменьшено на 30% от 37px */
+    }
+
+    .navtext {
+        font-size: 22.4px; /* уменьшено на 30% от 32px */
+        text-shadow: 3.5px 1.4px 1.4px black; /* уменьшено на 30% от 5px 2px 2px */
+    }
+
+    .navblock {
+        padding: 7px 14px; /* уменьшено на 30% от 10px 20px */
+        border-radius: 49px; /* уменьшено на 30% от 70px */
+    }
+
+    .links {
+        width: 840px; /* уменьшено на 30% от 1200px */
+    }
+
+    .logo {
+        width: 96.6px; /* уменьшено на 30% от 138px */
+        height: 42px; /* уменьшено на 30% от 60px */
+    }
+}
+
