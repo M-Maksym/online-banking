@@ -10,7 +10,11 @@ const LoginForm = () => {
   const handleChange = (e) => {
     const input = e.target.value;
 
-    if (/^[+]?\d*$/.test(input)) {
+    if (input.length === 1 && input !== '+') {
+      setError('Номер повинен починатися зі знака "+"');
+      return;
+    }
+    else if (/^[+]?\d*$/.test(input)) {
       if (input.length <= 13) { 
         setPhoneNumber(input);
         setError('');
