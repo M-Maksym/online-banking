@@ -2,13 +2,20 @@ import React from 'react';
 import classes from './Left.module.css'; 
 import img from './Logo.png'
 
+import { useNavigate } from 'react-router-dom' 
+
 const BankComponent = () => {
+
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate('/AboutUs');
+  };
+
   return (
     <div className={classes.bankContainer}>
-      <div className={classes.logoContainer}>
+      <div className={classes.logoContainer} onClick={handleSearch}>
         <div className={classes.logo}>
-          {/* <span className={classes.bank}>BANK</span>
-          <span className={classes.chinazes}>CHINAZES</span> */}
           <img src={img} alt="Logo" />
         </div>
       </div>
