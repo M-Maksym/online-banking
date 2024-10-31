@@ -9,7 +9,7 @@ const BankComponent = () => {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    navigate('/AboutUs');
+    navigate('/');
   };
 
   return (
