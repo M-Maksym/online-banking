@@ -10,6 +10,7 @@ import MainHeader from './Components/MainHeader/MainHeader';
 import AboutUs from './Components/AboutUs/AboutUs';
 import Advantages from './Components/Advantages/Advantages';
 import Reviews from './Components/Reviews/Reviews';
+import Account from './Components/Account/AccountPage';
 
 function App() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function App() {
         <Route path="/Operations" element={<Operations />} />
         <Route path="/Cards" element={<Cards />} />
         <Route path="/AuthorizationConfirm" element={<AuthorizationConfirm />} />
+        <Route path="/Account" element={<Account />} />
       </Routes>
     </>
   );
