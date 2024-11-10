@@ -11,6 +11,7 @@ import AboutUs from './Components/AboutUs/AboutUs';
 import Advantages from './Components/Advantages/Advantages';
 import Reviews from './Components/Reviews/Reviews';
 import Account from './Components/Account/AccountPage';
+import Deposit from './Components/Deposit/Deposit';
 
 function App() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function App() {
         <Route path="/LandingPage" element={<LandingPage />} />
         <Route path="/Operations" element={<Operations />} />
         <Route path="/Cards" element={<Cards />} />
+        <Route path="/Deposit" element={<Deposit />} />
         <Route path="/AuthorizationConfirm" element={<AuthorizationConfirm />} />
         <Route path="/Account" element={<Account />} />
       </Routes>
