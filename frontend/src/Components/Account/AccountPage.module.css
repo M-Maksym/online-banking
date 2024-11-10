@@ -8,6 +8,14 @@
     justify-content: space-evenly;
 }
   
+.activeLock{
+  opacity: 0;
+}
+
+.inactiveLock{
+  opacity: 1;
+}
+
 .active {
     color: #fff;
     cursor: pointer;

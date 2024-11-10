@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styles from './AccountPage.module.css';
 
 import img from './Components/img/icon.png'
+import lockImg from './Components/img/lock.png'
+import avatarStock from './Components/img/img_avatar.png'
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +28,7 @@ const Profile = () => {
   };
 
   const handleSave = () => {
-    // Save changes logic here
+    // 
     setIsEditable(false);
   };
 
@@ -44,7 +46,7 @@ const Profile = () => {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.avatarSection}>
-        <div className={styles.avatar} style={{ backgroundImage: photo ? `url(${photo})` : 'none' }}>
+        <div className={styles.avatar} style={{ backgroundImage: photo ? `url(${photo})` : `url(${avatarStock})` }}>
             {!photo && <div className={styles.avatarPlaceholder}></div>}
         </div>
             <div className={styles.avatarButtonSection}>
@@ -56,7 +58,7 @@ const Profile = () => {
                         style={{ display: 'none' }}
                         onChange={handlePhotoChange}
                         disabled={!isEditable}
-                        className={`${isEditable ? styles.active : styles.inactive}`} 
+                        className={isEditable ? styles.active : styles.inactive} 
                     />
                 <button className={styles.deletePhoto} disabled={!isEditable} onClick={handleDeletePhoto}>Видалити фото</button>
             </div>
@@ -79,6 +81,7 @@ const Profile = () => {
               onChange={handleChange}
               readOnly={!isEditable} 
             />
+            <img src={lockImg} alt=""  className={isEditable ? styles.activeLock : styles.inactiveLock}/>
           </div>
         ))}
         <div className={styles.ButtonSection}>
