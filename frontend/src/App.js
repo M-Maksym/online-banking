@@ -10,6 +10,7 @@ import MainHeader from './Components/MainHeader/MainHeader';
 import AboutUs from './Components/AboutUs/AboutUs';
 import Advantages from './Components/Advantages/Advantages';
 import Reviews from './Components/Reviews/Reviews';
+import Account from './Components/Account/AccountPage';
 import Deposit from './Components/Deposit/Deposit';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/Cards" element={<Cards />} />
         <Route path="/Deposit" element={<Deposit />} />
         <Route path="/AuthorizationConfirm" element={<AuthorizationConfirm />} />
+        <Route path="/Account" element={<Account />} />
       </Routes>
     </>
   );
