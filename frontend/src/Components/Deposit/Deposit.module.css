@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Dela+Gothic+One&display=swap');
+
+.card{
+    background-color:#2D2D2D;
+    border-radius: 25px;
+    padding: 20px 50px 20px 40px;
+}
+
+.card__ico__card{
+    background-color: #1A6AE2;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+.card__ico__phone{
+    background-color: #0AC94B;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+.card__ico__iban{
+    background-color: #E4E846;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+.card__ico__eth{
+    background-color: #E4E846;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+.card__name__shortdecription{
+    font-family: "Dela Gothic One", serif !important;
+    color: #FFF;
+    font-size: 32px !important;
+    font-weight: 400;
+}
+.card__description{
+    font-family: "Alexandria", sans-serif !important;
+    color: #848484;
+    font-size: 23px !important;
+    font-weight: 400;
+}
+.input__width{
+    width: 80%;
+}
+.modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:60%;
+    background-color: #454341;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 25px;
+}
+.close{
+    width:100%;
+    display: flex;
+    justify-content: end;
+    cursor:pointer
+}
+.transaction{
+    width:600px;
+}
+.transaction__lable{
+    font-family: "Dela Gothic One", serif !important;
+    color: #C7C7C6;
+    font-size: 32px !important;
+    font-weight: 400 !important;
+    padding-left: 40px;
+}
+.sendBtn{
+    background-color: #2D2D2D;
+    border-radius: 15px;
+    padding:5px 60px;
+    font-family: "Dela Gothic One", serif !important;
+    color: #969696;
+    font-size: 24px !important;
+    font-weight: 400 !important;
+    border:1px solid transparent;
+    cursor: pointer;
+}
+.selectedCard{
+    background-color: #827E7E;
+    border-radius: 20px;
+    padding: 10px 50px 10px 20px;
+    width:100%
+}
