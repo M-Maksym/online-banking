@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `banking_db`.`Account` (
   `idAccount` INT NOT NULL AUTO_INCREMENT,
   `balance` FLOAT NOT NULL,
-  `data` VARCHAR(45) NOT NULL,
+  `data` DATE NOT NULL,
   `idCustomer_Account` INT NOT NULL,
   PRIMARY KEY (`idAccount`, `idCustomer_Account`),
   INDEX `fk_Account_Customer_idx` (`idCustomer_Account` ASC) VISIBLE,
@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `banking_db`.`Transaction` (
   `commission` FLOAT NOT NULL,
   `idSender_Customer` INT NOT NULL,
   `idReciever_Customer` INT NOT NULL,
+  `dateTansaction` DATE NOT NULL,
   PRIMARY KEY (`idTransaction`, `idSender_Customer`, `idReciever_Customer`),
   INDEX `fk_Transaction_Customer1_idx` (`idSender_Customer` ASC) VISIBLE,
   INDEX `fk_Transaction_Customer2_idx` (`idReciever_Customer` ASC) VISIBLE,
@@ -93,25 +94,9 @@ CREATE TABLE IF NOT EXISTS `banking_db`.`Transaction` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `banking_db`.`TransactionLog`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `banking_db`.`TransactionLog` (
-  `idTransactionLog` INT NOT NULL,
-  `message` VARCHAR(255) NULL,
-  `idTransaction_Log` INT NOT NULL,
-  `idSender_Customer_Log` INT NOT NULL,
-  `idReciever_Customer_Log` INT NOT NULL,
-  PRIMARY KEY (`idTransactionLog`, `idTransaction_Log`, `idSender_Customer_Log`, `idReciever_Customer_Log`),
-  INDEX `fk_TransactionLog_Transaction1_idx` (`idTransaction_Log` ASC, `idSender_Customer_Log` ASC, `idReciever_Customer_Log` ASC) VISIBLE,
-  CONSTRAINT `fk_TransactionLog_Transaction1`
-    FOREIGN KEY (`idTransaction_Log` , `idSender_Customer_Log` , `idReciever_Customer_Log`)
-    REFERENCES `banking_db`.`Transaction` (`idTransaction` , `idSender_Customer` , `idReciever_Customer`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
