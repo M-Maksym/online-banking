@@ -14,16 +14,12 @@ const cardController = new CardController(cardService);
 router.get("/cards/:id", varificator.verifyToken, cardController.getCardById);
 router.get("/cards-number", cardController.getCardByNumber);
 router.get(
-  "/cards/customer/:id",
+  "/cards-customer",
   varificator.verifyToken,
   cardController.getAllCardsOfCustomer
 );
 
-router.post(
-  "/cards/:idCustomer",
-  varificator.verifyToken,
-  cardController.createCard
-);
+router.post("/cards", varificator.verifyToken, cardController.createCard);
 router.put("/cards/:id", varificator.verifyToken, cardController.updateCard); //not in disgine
 router.patch(
   "/cards/:id",
