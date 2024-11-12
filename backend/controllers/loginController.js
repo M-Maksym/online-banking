@@ -15,14 +15,14 @@ export class LoginController {
       this.validator.validatePhone(phone);
       this.validator.validatePassword(password);
       // Validate user credentials with loginService
-      const customerId = await this.loginService.authenticate(phone, password);
+      const customer = await this.loginService.authenticate(phone, password);
 
-      if (!customerId) {
+      if (!customer) {
         throw new HttpError("Invalid credentials", 401);
       }
 
       // Generate JWT token
-      const token = this.jwt.generateToken(customerId.id);
+      const token = this.jwt.generateToken(customer.id);
 
       // Send token as response
       res.cookie("token", token, {

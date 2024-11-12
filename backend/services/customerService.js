@@ -66,7 +66,15 @@ class CustomerService {
     }
   }
   // Create a new customer
-  async createCustomer(age, phoneNumber, password) {
+  async createCustomer(
+    age,
+    phoneNumber,
+    password,
+    firstname,
+    lastName,
+    midlename,
+    address
+  ) {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -77,6 +85,10 @@ class CustomerService {
         age,
         phoneNumber,
         hashedPassword,
+        firstname,
+        lastName,
+        midlename,
+        address,
         dateCreated
       );
 
@@ -88,19 +100,16 @@ class CustomerService {
   }
 
   // Update an existing customer
-  async updateCustomer(id, age, phoneNumber, password, balance, dateCreated) {
+  async updateCustomer(id, age, phoneNumber, firstname, lastName, midlename) {
     try {
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
       // Update customer
       return await this.customerRepository.updateCustomer(
         id,
         age,
         phoneNumber,
-        hashedPassword,
-        balance,
-        dateCreated
+        firstname,
+        lastName,
+        midlename
       );
     } catch (error) {
       console.error(error);

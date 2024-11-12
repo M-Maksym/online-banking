@@ -14,14 +14,14 @@ class CustomerRepository {
 
   async getAllCustomers() {
     const [rows] = await this.pool.query(
-      "SELECT age, phoneNumber, dateCreated FROM Customer"
+      "SELECT age, phoneNumber, dateCreated,firstName, lastName, middleName ,address FROM Customer"
     );
     return rows;
   }
 
   async getCustomerById(id) {
     const [rows] = await this.pool.query(
-      `SELECT age, phoneNumber, dateCreated
+      `SELECT age, phoneNumber, dateCreated, firstName, lastName, middleName,address
             FROM Customer
             WHERE idCustomer = ?`,
       [id]
@@ -39,11 +39,29 @@ class CustomerRepository {
     return rows[0];
   }
 
-  async createCustomer(age, phoneNumber, password, balance, dateCreated) {
+  async createCustomer(
+    age,
+    phoneNumber,
+    password,
+    firstName,
+    lastName,
+    middleName,
+    address,
+    dateCreated
+  ) {
     const result = await this.pool.query(
-      `INSERT INTO Customer (age, phoneNumber, password,  dateCreated)
-     VALUES (?, ?, ?, ?, ?)`,
-      [age, phoneNumber, password, dateCreated]
+      `INSERT INTO Customer (age, phoneNumber, password, firstName,lastName, middleName ,address,  dateCreated)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        age,
+        phoneNumber,
+        password,
+        firstName,
+        lastName,
+        middleName,
+        address,
+        dateCreated,
+      ]
     );
 
     const customerId = result[0].insertId;
@@ -51,12 +69,20 @@ class CustomerRepository {
     return customerId;
   }
 
-  async updateCustomer(idCustomer, age, phoneNumber, password, dateCreated) {
+  async updateCustomer(
+    idCustomer,
+    age,
+    phoneNumber,
+    firstName,
+    lastName,
+    middleName,
+    address
+  ) {
     await this.pool.query(
       `UPDATE Customer 
-            SET age = ?, phoneNumber = ?, password = ?, balance = ?, dateCreated = ?
+            SET age = ?, phoneNumber = ?, firstName = ?, lastName = ?, middleName = ?, address = ?
             WHERE idCustomer = ?`,
-      [age, phoneNumber, password, dateCreated, idCustomer]
+      [age, phoneNumber, firstName, lastName, middleName, address, idCustomer]
     );
     return { result: "success" };
   }

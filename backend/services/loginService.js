@@ -6,7 +6,7 @@ export class LoginService {
   async authenticate(phone, password) {
     try {
       const customerRespond = await fetch(
-        "http://localhost:3001/api/customers-id",
+        "http://localhost:3001/api/customer-id",
         {
           method: "POST",
           headers: {
