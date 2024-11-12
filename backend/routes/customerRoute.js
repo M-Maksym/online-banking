@@ -19,20 +19,24 @@ router.get(
   customerController.getAllCustomers
 );
 
-router.get("/customers/:id", customerController.getCustomerById);
+router.get(
+  "/customer",
+  varificator.verifyToken,
+  customerController.getCustomerById
+);
 
-router.post("/customers-id", customerController.getCustomerIdByPhone);
+router.post("/customer-id", customerController.getCustomerIdByPhone);
 
-router.post("/customers", customerController.createCustomer);
+router.post("/customer", customerController.createCustomer);
 
 router.put(
-  "/customers/:id",
+  "/customer",
   varificator.verifyToken,
   customerController.updateCustomer
 );
 
 router.delete(
-  "/customers/:id",
+  "/customer",
   varificator.verifyToken,
   customerController.deleteCustomer
 );

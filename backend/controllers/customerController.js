@@ -1,5 +1,6 @@
 import { HttpError } from "../classes/httpError.js";
 import { Validator } from "../classes/validator.js";
+import jwt from "jsonwebtoken";
 //import { Generator } from "../classes/generator.js";
 
 class CustomerController {
@@ -26,13 +27,15 @@ class CustomerController {
 
   // Get a customer by ID from the URL path param
   getCustomerById = async (req, res) => {
-    const { id } = req.params; // Extract ID from URL
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const idCustomer = decoded.customerId;
 
     let customer = null;
 
     try {
-      this.validator.validateId(id);
-      customer = await this.CustomerService.getCustomerById(id);
+      this.validator.validateId(idCustomer);
+      customer = await this.CustomerService.getCustomerById(idCustomer);
 
       if (!customer) {
         return res.status(404).json({ message: "Customer not found" });
@@ -82,7 +85,15 @@ class CustomerController {
 
   // Create a new customer, extracting data from query params
   createCustomer = async (req, res) => {
-    const { age, phoneNumber, password } = req.body; // Extract from query parameters\
+    const {
+      age,
+      phoneNumber,
+      password,
+      firstName,
+      lastName,
+      middleName,
+      address,
+    } = req.body; // Extract from query parameters\
 
     try {
       this.validator.validateAge(age);
@@ -92,7 +103,11 @@ class CustomerController {
       const customerId = await this.CustomerService.createCustomer(
         age,
         phoneNumber,
-        password
+        password,
+        firstName,
+        lastName,
+        middleName,
+        address
       );
 
       res.status(201).json({ id: `${customerId}` });
@@ -109,24 +124,27 @@ class CustomerController {
 
   // Update an existing customer using both path params and query params
   updateCustomer = async (req, res) => {
-    const { id } = req.params; // Extract ID from URL
-    const { age, phoneNumber, password } = req.body; // Extract age, email, and password from query params
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const idCustomer = decoded.customerId;
 
-    const customer = null;
+    const { age, phoneNumber, firstName, lastName, middleName } = req.body; // Extract age, email, and password from query params
+
+    let customer = null;
     try {
-      this.validator.validateId(id);
+      this.validator.validateId(idCustomer);
       this.validator.validateAge(age);
-      this.validator.validatePassword(password);
       this.validator.validatePhone(phoneNumber);
 
       //TODO
       //valieta password for update
       customer = await this.CustomerService.updateCustomer(
-        id,
+        idCustomer,
         age,
         phoneNumber,
-        email,
-        password
+        firstName,
+        lastName,
+        middleName
       );
       if (!customer) {
         return res.status(404).json({ message: "Customer not found" });
@@ -138,20 +156,22 @@ class CustomerController {
       } else {
         console.error(error);
 
-        res.status(500).json({ message: "Cannot create customer" });
+        res.status(500).json({ message: "Cannot update customer" });
       }
     }
   };
 
   deleteCustomer = async (req, res) => {
-    const { id } = req.params; // Extract ID from URL
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const idCustomer = decoded.customerId;
 
     let result = null;
 
     try {
-      this.validator.validateId(id);
+      this.validator.validateId(idCustomer);
 
-      result = await this.CustomerService.deleteCustomer(id);
+      result = await this.CustomerService.deleteCustomer(idCustomer);
 
       if (!result) {
         return res.status(404).json({ message: "Customer not found" });

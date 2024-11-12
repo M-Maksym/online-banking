@@ -20,15 +20,6 @@ app.use("/api", cardRoutes);
 app.use("/api", transactionRoutes); // All transaction routes will be prefixed with
 //
 
-app.get("/test", (req, res) => {
-  const token = req.cookies.token;
-  if (token) {
-    res.status(200).json({ message: "Token exists", token });
-  } else {
-    res.status(404).json({ message: "No token found" });
-  }
-});
-// Start the server
 app.listen(3001, () => {
   console.log(`Server is running on port http://localhost:${3001}`); // Fixed logging
 });
