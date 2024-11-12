@@ -13,6 +13,13 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 app.use("/api", login);
 
 app.use("/api", customerRoutes); // All customer routes will be prefixed with '/api'
