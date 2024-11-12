@@ -1,7 +1,7 @@
 import { HttpError } from "../classes/httpError.js";
 import { Validator } from "../classes/validator.js";
 import { Generator } from "../classes/generator.js";
-
+import jwt from "jsonwebtoken";
 export class CardController {
   constructor(CardService) {
     this.CardService = CardService;
@@ -19,12 +19,14 @@ export class CardController {
   }
 
   getAllCardsOfCustomer = async (req, res) => {
-    const { id } = req.params;
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const idCustomer = decoded.customerId;
 
     try {
-      this.validator.validateId(id);
+      this.validator.validateId(idCustomer);
 
-      const cards = await this.CardService.getAllCardsOfCustomer(id);
+      const cards = await this.CardService.getAllCardsOfCustomer(idCustomer);
       res.status(201).json(cards);
     } catch (error) {
       if (error instanceof HttpError) {
@@ -84,7 +86,10 @@ export class CardController {
 
   createCard = async (req, res) => {
     const { pincode, type } = req.body;
-    const { idCustomer } = req.params;
+
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const idCustomer = decoded.customerId;
 
     const number = this.generator.generateCardNumber("mastercard");
     const cvv = this.generator.generateCVV();
@@ -115,26 +120,17 @@ export class CardController {
   };
   //TODO find only those that are changed
   updateCard = async (req, res) => {
-    const { number, pincode, cvv, dateExpiration, type, idCustomer } = req.body;
+    const { pincode, type } = req.body;
     const { id } = req.params;
 
     try {
-      this.validator.validateCard(number, cvv, pincode, dateExpiration, type);
+      this.validator.validatePincode(pincode);
+      this.validator.validateType(type);
       this.validator.validateId(id);
-      this.validator.validateId(idCustomer);
 
-      const idCard = await this.CardService.createCard(
-        number,
-        pincode,
-        cvv,
-        dateExpiration,
-        type,
-        idCustomer
-      );
+      const massage = await this.CardService.updateCard(id, pincode, type);
 
-      res
-        .status(201)
-        .json({ massage: "Card updated succesfully", cardId: idCard });
+      res.status(201).json(massage);
     } catch (error) {
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({ message: error.message });
@@ -147,6 +143,7 @@ export class CardController {
 
   updateCardBalance = async (req, res) => {
     const { id } = req.params;
+
     const { balance } = req.body;
 
     try {

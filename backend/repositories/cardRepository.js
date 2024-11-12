@@ -47,10 +47,10 @@ export class CardRepository {
     return cardId;
   }
 
-  async updateCard(idCard, number, pincode, cvv, dateExpiration, type) {
+  async updateCard(idCard, pincode, type) {
     await this.pool.query(
-      "UPDATE Card SET number =?, pincode =?, cvv =?, dateExpiration =?, type =? WHERE idCard =?",
-      [number, pincode, cvv, dateExpiration, type, idCard]
+      "UPDATE Card SET pincode =?,type =? WHERE idCard =?",
+      [pincode, type, idCard]
     );
 
     return { result: "success" };

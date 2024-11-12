@@ -64,16 +64,9 @@ export class CardService {
     }
   }
 
-  async updateCard(cardId, number, pincode, cvv, dateExpiration, type) {
+  async updateCard(cardId, pincode, type) {
     try {
-      await this.CardRepository.updateCard(
-        cardId,
-        number,
-        pincode,
-        cvv,
-        dateExpiration,
-        type
-      );
+      await this.CardRepository.updateCard(cardId, pincode, type);
       return { result: "success" };
     } catch (error) {
       console.error(error);
