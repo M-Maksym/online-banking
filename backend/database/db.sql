@@ -20,7 +20,10 @@ CREATE TABLE IF NOT EXISTS Customer (
   age INT NOT NULL,
   phoneNumber VARCHAR(13) NOT NULL,
   password VARCHAR(64) NOT NULL,
-  balance DECIMAL(10, 2) NOT NULL,
+  address VARCHAR(100) NULL ,
+  firstName VARCHAR(50) NULL,
+  lastName VARCHAR(50) NULL,
+  middleName VARCHAR(50) NULL,
   dateCreated DATE NOT NULL,
   PRIMARY KEY (`idCustomer`)
 ) ENGINE = InnoDB;
