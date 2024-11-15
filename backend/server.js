@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"; // Import cookie-parser
 import transactionRoutes from "./routes/transactionRoute.js"; // Fixed import path
 import cardRoutes from "./routes/cardRoute.js"; //
 import login from "./routes/loginRoute.js";
+import cors from "cors";
 
 dotenv.config();
 
