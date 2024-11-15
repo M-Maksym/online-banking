@@ -88,18 +88,14 @@ export class TransactionService {
         destination
       );
 
-      //update
-      await fetch(
-        `//http:localhost:3001/api/transactions/${senderCard.idCard}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Cookie: `token = ${token}`,
-          },
-          body: JSON.stringify(senderCard.balance),
-        }
-      );
+      await fetch(`http://localhost:3001/api/cards/${senderCard.idCard}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `token=${token}`,
+        },
+        body: JSON.stringify({ balance: senderCard.balance }),
+      });
       return { result };
     } catch (error) {
       console.error(error);

@@ -25,12 +25,7 @@ export class LoginController {
       const token = this.jwt.generateToken(customer.id);
 
       // Send token as response
-      res.cookie("token", token, {
-        httpOnly: true,
-        // secure: true,
-        // maxAge: 100000,
-        // signed: true,
-      });
+      res.json({ result: token });
 
       res.status(200).json({ message: "Logged in successfully" });
     } catch (error) {
