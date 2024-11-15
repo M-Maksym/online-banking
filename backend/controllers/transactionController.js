@@ -12,9 +12,7 @@ export class TransactionController {
   }
   //may be used an id for this or token
   async getAllTransactionsOfCards(req, res) {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const idCustomer = decoded.customerId;
+    const idCustomer = req.user.customerId;
 
     //cardNumbers = cardNumbers.split(",").map((cardNumber) => cardNumber.trim());
 

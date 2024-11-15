@@ -56,7 +56,7 @@ class CustomerService {
       // Compare password with the hashed password stored in the database
       const isPasswordValid = await bcrypt.compare(password, customer.password);
       if (isPasswordValid) {
-        return { id: customer.idCustomer };
+        return { customer };
       } else {
         return null; // Passwords do not match
       }
