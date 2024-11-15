@@ -88,3 +88,25 @@
     padding: 10px 50px 10px 20px;
     width:100%
 }
+.modalSuccess{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:auto;
+    background-color: #454341;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    padding: 90px 120px;
+    border-radius: 25px;
+    border:1px solid transparent;
+}
+.successText{
+    font-family: "Dela Gothic One", serif !important;
+    color: #FFF;
+    font-size: 32px !important;
+    font-weight: 400 !important;
+    margin-left: 45px;
+}

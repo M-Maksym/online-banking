@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Dela+Gothic+One&display=swap');
+
 .main{
     background-color: #2D2D2D;
     padding: 30px 20px 70px 20px;
@@ -91,4 +93,66 @@
 }
 .optionLast{
     padding-bottom: 11px;
+}
+.modalSuccess{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:auto;
+    background-color: #454341;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    padding: 90px 120px;
+    border-radius: 25px;
+    border:1px solid transparent;
+}
+.successText{
+    font-family: "Dela Gothic One", serif !important;
+    color: #FFF;
+    font-size: 32px !important;
+    font-weight: 400 !important;
+    margin-left: 45px;
+}
+.modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:60%;
+    background-color: #454341;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px 150px;
+    border-radius: 25px;
+}
+.modal__variant{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width:100%
+}
+.modal__variant__choice{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.modal__variant__choice__text{
+    font-family: "Dela Gothic One", serif !important;
+    color: #FFF !important;
+    font-size: 40px !important;
+    font-weight: 400 !important;
+}
+.modal__text{
+    font-family: "Dela Gothic One", serif !important;
+    color: #FFF !important;
+    margin-bottom: 100px !important;
+    font-size: 40px !important;
+    font-weight: 400 !important;
 }

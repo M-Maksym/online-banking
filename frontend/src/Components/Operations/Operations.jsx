@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid2 as Grid, Box} from '@mui/material'
+import {Grid2 as Grid, Box, Modal, Typography} from '@mui/material'
 import style from './Operation.module.css'
 import Card from './Card'
 import Switch from '@mui/material/Switch';
@@ -69,10 +69,29 @@ const BankSwitch = styled((props) => (
 
 
 const Operations = () => {
-  const [activeTab, setActiveTab] = React.useState(0)
+  const [activeTab, setActiveTab] = React.useState(0);
+  const [success, setSuccess] = React.useState(false);
+  const [cardOperationModal, setCardOperationModal] = React.useState(false);
+  const [cardOperationText, setCardOperationText] = React.useState('Чи справді Ви бажаєте видалити картку?');
   const changeActiveTab = (i) =>{
     setActiveTab(i)
   }
+  const closeTransInfo = () => {
+    setSuccess(false)
+}
+const closeCardInfo = () => {
+  setCardOperationModal(false)
+}
+const cardOperation = (lable) =>{
+  setCardOperationText(lable);
+  setCardOperationModal(true);
+}
+const sendRequest = () => {
+  setSuccess(true);
+  setCardOperationModal(false);
+  const timer = setTimeout(() => setSuccess(false), 5000);
+  return () => clearTimeout(timer);
+}
   return (
     <Grid container direction={'row'} justifyContent={'space-around'} style={{marginTop:"77px", marginBottom:"60px"}}>
       <Grid item size={{ xs: 10, sm: 10, md: 4, lg: 4, xl: 3 }} className={style.main}>
@@ -80,9 +99,12 @@ const Operations = () => {
           <Card balance={2000000} number={'5252 8822 8133 7284'} date={'09/25'} brand={require('./assets/mastercard.svg').default} />
           <img src={require('./assets/arrowDown.svg').default} alt='arrowDown'  className={style.arrowDown}/>
           <Grid item justifyContent={'center'}>
-            <Grid container justifyContent={'center'}>
+            <Grid container justifyContent={'space-between'}>
               <button className={activeTab === 0 ? style.operationBtnActive : style.operationBtn} onClick={() => changeActiveTab(0)}>
               Історія транзакцій
+              </button>
+              <button className={activeTab === -1 ? style.operationBtnActive : style.operationBtn} onClick={() => changeActiveTab(-1)}>
+              Створити картку
               </button>
             </Grid>
             <Grid container direction={'row'} justifyContent={'space-between'} gap={1} style={{marginTop:"11px"}}>
@@ -92,12 +114,12 @@ const Operations = () => {
                 </button>
               </Grid>
               <Grid item size={{ xs: 5, sm: 5, md: 5, lg: 5, xl: 5 }}>
-                <button className={activeTab === 2 ? style.operationBtnActive : style.operationBtn} onClick={() => changeActiveTab(2)}>
-                  Реквізити картки
+                <button className={activeTab === 2 ? style.operationBtnActive : style.operationBtn} onClick={() => cardOperation('Чи справді Ви бажаєте видалити картку?')}>
+                  Видалити картку
                 </button>
               </Grid>
               <Grid item size={{ xs: 5, sm: 5, md: 5, lg: 5, xl: 5 }}>
-                <button className={activeTab === 3 ? style.operationBtnActive : style.operationBtn} onClick={() => changeActiveTab(3)}>
+                <button className={activeTab === 3 ? style.operationBtnActive : style.operationBtn} onClick={() => cardOperation('Чи справді Ви бажаєте заблокувати картку?')}>
                   Заблокувати картку
                 </button>
               </Grid>
@@ -162,6 +184,40 @@ const Operations = () => {
         {activeTab === 0 && <History />}
         {activeTab === 4 && <Limits />}
       </Grid>
+      <Modal
+            open={cardOperationModal}
+            onClose={closeCardInfo}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            sx={{backdropFilter:"blur(3px)"}}
+            >
+                <Box className={style.modal}>
+                    <Typography className={style.modal__text}>{cardOperationText}</Typography>
+                    <Box className={style.modal__variant}>
+                      <Box className={style.modal__variant__choice} onClick={()=>sendRequest()}>
+                        <img src={require('./assets/yes.png')} alt='successs' style={{width:"190px", marginRight:"6px"}}/>
+                        <Typography className={style.modal__variant__choice__text}>Так</Typography>
+                      </Box>
+                      <Box className={style.modal__variant__choice} onClick={()=>closeCardInfo()}>
+                        <img src={require('./assets/no.png')} alt='successs' style={{width:"150px", marginRight:"46px"}}/>
+                        <Typography className={style.modal__variant__choice__text}>Ні</Typography>
+                      </Box>
+                    </Box>
+                </Box>
+        </Modal>
+      <Modal
+            open={success}
+            onClose={closeTransInfo}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+                <Box className={style.modalSuccess}>
+                    <Box style={{width:"120px"}}>
+                        <img src={require('./assets/success.png')} alt='successs' style={{width:"120px"}}/>
+                    </Box>
+                    <h1 className={style.successText}>Успішно</h1>
+                </Box>
+            </Modal>
     </Grid>
   )
 }

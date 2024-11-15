@@ -6,7 +6,6 @@ import { ReactComponent as PhoneIcon } from './assets/phone.svg';
 import { ReactComponent as IbanIcon } from './assets/iban.svg';
 import { ReactComponent as EthernetIcon } from './assets/ethernet.svg';
 import { ReactComponent as UaIcon } from './assets/ua.svg';
-import { fontFamily } from '@mui/system';
 
 function Deposit() {
     const [service, setService] = React.useState('');
@@ -16,6 +15,8 @@ function Deposit() {
     const [phoneNumber, setPhoneNumber] = React.useState();
     const [iban, setIban] = React.useState();
     const [abonent, setAbonent] = React.useState();
+    const [success, setSuccess] = React.useState(false);
+    const [money, setMoney] = React.useState();    
 
     const handleService = (lable) =>{
         setService(lable);
@@ -24,7 +25,7 @@ function Deposit() {
                 setOperationNumber(cardNumber);
             break;
             case 'Номер телефону':
-                setOperationNumber(phoneNumber)
+                setOperationNumber(`380${phoneNumber}`)
             break;
             case 'Абонентський номер':
                 setOperationNumber(abonent)
@@ -38,9 +39,17 @@ function Deposit() {
 
         setModalVisible(true);
     }
-    const handleOperationInput = (e) => {
-        const input = e.target.value;
+    const handleMoney = (e) => {
+        const value = e.target.value;
+        const regex = /^[0-9]*\.?[0-9]*$/;
     
+        if (regex.test(value)) {
+            setMoney(value);
+        }
+    };
+    
+    const handleOperationInput = (e) => {
+        let input = e.target.value;
         switch (service) {
             case 'Картка': {
                 const onlyNumbers = input.replace(/\D/g, '');
@@ -67,12 +76,34 @@ function Deposit() {
                 break;
             }
             case 'IBAN': {
-                const formattedIBAN = input.toUpperCase().replace(/[^A-Z0-9]/g, '');
-                const maxIbanLength = 34;
-                if (formattedIBAN.length <= maxIbanLength) {
-                    setOperationNumber(formattedIBAN);
+                const maxLength = 34;
+                input = input.toUpperCase();
+                input = input.replace(/[^A-Z0-9]/g, '');
+            
+                if (input.length > 0 && /^[0-9]/.test(input)) {
+                    input = input.replace(/^[0-9]+/, '');
                 }
-                break;
+            
+                const ibanPattern = /^[A-Z]{0,2}[0-9]*$/;
+            
+                if (input.length <= maxLength && ibanPattern.test(input)) {
+                    if (input.length <= 2) {
+                        if (/^[A-Z]*$/.test(input)) {
+                            setOperationNumber(input);
+                            e.target.value = input;
+                        }
+                    } else {
+                        if (/^[A-Z]{2}[0-9]*$/.test(input)) {
+                            setOperationNumber(input);
+                            e.target.value = input;
+                        }
+                    }
+                } else {
+                    const correctedInput = input.slice(0, -1);
+                    setOperationNumber(correctedInput);
+                    e.target.value = correctedInput;
+                }
+                break;   
             }
             default:
                 console.log('Shoto ne to');
@@ -98,22 +129,61 @@ function Deposit() {
         }
     };
     const handleIbanNumber = (e) => {
-        const input = e.target.value;
-        const ibanPattern = /^[A-Z0-9]*$/;
-        const formattedInput = input.toUpperCase().replace(/[^A-Z0-9]/g, ''); 
-        const maxLength = 34; 
-
-        if (formattedInput.length <= maxLength && ibanPattern.test(formattedInput)) {
-            setIban(formattedInput); 
+        let input = e.target.value.toUpperCase();
+        const maxLength = 34;
+    
+        input = input.replace(/[^A-Z0-9]/g, '');
+    
+        if (input.length > 0 && /^[0-9]/.test(input)) {
+            input = input.replace(/^[0-9]+/, '');
+        }
+    
+        const ibanPattern = /^[A-Z]{0,2}[0-9]*$/;
+    
+        if (input.length <= maxLength && ibanPattern.test(input)) {
+            if (input.length <= 2) {
+                if (/^[A-Z]*$/.test(input)) {
+                    setIban(input);
+                    e.target.value = input;
+                }
+            } else {
+                if (/^[A-Z]{2}[0-9]*$/.test(input)) {
+                    setIban(input);
+                    e.target.value = input;
+                }
+            }
+        } else {
+            const correctedInput = input.slice(0, -1);
+            setIban(correctedInput);
+            e.target.value = correctedInput;
         }
     };
+    
+    
+    
+    
     const handleAbonent = (e) => {
         const input = e.target.value;
         const onlyNumbers = input.replace(/\D/g, '');
-        setAbonent(onlyNumbers); 
+        if(onlyNumbers.length <= 5){
+            setAbonent(onlyNumbers); 
+        }
+        
     };
     const closeModal = () => {
         setModalVisible(false)
+    }
+    const sendTransaction = () => {
+        if(money&&opeationNumber){
+           closeModal();
+            setSuccess(true);
+            const timer = setTimeout(() => setSuccess(false), 3000);
+            return () => clearTimeout(timer); 
+        }
+        
+    }
+    const closeTransInfo = () => {
+        setSuccess(false)
     }
 
     return (
@@ -158,7 +228,7 @@ function Deposit() {
                                 />
                             </Grid>
                             <Grid item onClick={()=>handleService('Картка')} style={{cursor:"pointer"}}>
-                                <img src={require('./assets/arrow.png')}  style={{width:"60px", height:"60px"}}/>
+                                <img src={require('./assets/arrow.png')} alt='send'  style={{width:"60px", height:"60px"}}/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -169,8 +239,8 @@ function Deposit() {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item sm={12} md={5} lg={5} xl={5} style={{marginTop:"100px"}}>
-                <Grid container direction="column" spacing={2} className={style.card}>
+            <Grid item sm={12} md={5} lg={5} xl={5} style={{marginTop:"105px"}}>
+                <Grid container direction="column" spacing={2} className={style.card} style={{paddingRight:"10px"}}>
                     <Grid item>
                         <Grid container direction="row" alignItems="center" spacing={1} style={{marginBottom:"60px"}}>
                             <Grid item>
@@ -227,13 +297,13 @@ function Deposit() {
                                 />
                             </Grid>
                             <Grid item onClick={()=>handleService('Номер телефону')} style={{cursor:"pointer"}}>
-                                <img src={require('./assets/arrow.png')}  style={{width:"60px", height:"60px"}}/>
+                                <img src={require('./assets/arrow.png')} alt='send' style={{width:"60px", height:"60px"}}/>
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item>
                         <Typography className={style.card__description}>
-                            
+                            <br />
                         </Typography>
                     </Grid>
                 </Grid>
@@ -278,7 +348,7 @@ function Deposit() {
                                 />
                             </Grid>
                             <Grid item onClick={()=>handleService('IBAN')} style={{cursor:"pointer"}}>
-                                <img src={require('./assets/arrow.png')}  style={{width:"60px", height:"60px"}}/>
+                                <img src={require('./assets/arrow.png')} alt='send' style={{width:"60px", height:"60px"}}/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -329,7 +399,7 @@ function Deposit() {
                                 />
                             </Grid>
                             <Grid item onClick={()=>handleService('Абонентський номер')} style={{cursor:"pointer"}}>
-                                <img src={require('./assets/arrow.png')}  style={{width:"60px", height:"60px"}}/>
+                                <img src={require('./assets/arrow.png')} alt='send' style={{width:"60px", height:"60px"}}/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -369,7 +439,7 @@ function Deposit() {
                         </Typography>
                         <Grid container justifyContent={'space-between'} direction={'row'} className={style.selectedCard}>
                             <Grid item style={{width:"120px"}}>
-                                <img src={require('./assets/card.png')} style={{width:"120px"}}/>
+                                <img src={require('./assets/card.png')} alt='card' style={{width:"120px"}}/>
                             </Grid>
                             <Grid item>
                                 <Grid container direction={'column'}>
@@ -382,7 +452,7 @@ function Deposit() {
                                     Картка 5152 **** **** 7284
                                     </Typography>
                                     <Box sx={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
-                                    <img src={require('./assets/master.png')} style={{width:"90px"}}/>
+                                    <img src={require('./assets/master.png')} alt='system' style={{width:"90px"}}/>
                                     <Typography sx={{
                                                     fontFamily: "Dela",
                                                     color: "#FFF",
@@ -444,6 +514,8 @@ function Deposit() {
                         <Box sx={{marginBottom: "20px",borderRadius:"30px", padding:"20px 30px", backgroundColor: "#827E7E", flexDirection:'row', flexWrap:"nowrap", display:"flex"}}>
                             <Input
                                 placeholder='00.00'
+                                onChange={handleMoney}
+                                value={money}
                                 disableUnderline
                                         sx={{
                                             backgroundColor: "#827E7E",
@@ -464,17 +536,27 @@ function Deposit() {
                                 <Typography sx={{fontFamily:"Dela", fontSize:"32px", fontWeight:400, color:"#373535"}}>
                                     UAH
                                 </Typography>
-                                <svg width="18" height="9" viewBox="0 0 18 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9 9L0.339745 0.75L17.6603 0.75L9 9Z" fill="#373535"/>
-                                </svg>
-
                             </Box>
                         </Box>
                         <Box sx={{width:"100%", display:"flex", justifyContent:"center", marginTop:"30px"}}>
-                        <button className={style.sendBtn} onClick={()=>closeModal()}>Надіслати</button>
+                        <button className={style.sendBtn} onClick={()=>sendTransaction()}>Надіслати</button>
                         </Box>
                     </Box>
                     
+                </Box>
+            </Modal>
+            
+            <Modal
+            open={success}
+            onClose={closeTransInfo}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+                <Box className={style.modalSuccess}>
+                    <Box style={{width:"120px"}}>
+                        <img src={require('./assets/success.png')} alt='successs' style={{width:"120px"}}/>
+                    </Box>
+                    <h1 className={style.successText}>Успішно</h1>
                 </Box>
             </Modal>
         </Grid>
