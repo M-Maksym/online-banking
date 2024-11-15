@@ -31,7 +31,7 @@ class CustomerRepository {
 
   async getCustomerIdByPhone(phoneNumber) {
     const [rows] = await this.pool.query(
-      `SELECT idCustomer, password
+      `SELECT *
             FROM Customer 
             WHERE phoneNumber = ?`,
       [phoneNumber]

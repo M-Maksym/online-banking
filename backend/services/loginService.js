@@ -18,9 +18,9 @@ export class LoginService {
 
       if (!customerRespond.ok) return null;
 
-      const id = customerRespond.json();
+      const customer = customerRespond.json();
 
-      return id;
+      return customer;
     } catch (error) {
       console.error(error);
       throw new Error("Error authenticating user");

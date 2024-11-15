@@ -60,16 +60,16 @@ class CustomerController {
       this.validator.validatePhone(phone);
       this.validator.validatePassword(password);
 
-      const customerId = await this.CustomerService.getCustomerIdByPhone(
+      const customer = await this.CustomerService.getCustomerIdByPhone(
         phone,
         password
       );
 
-      if (!customerId) {
+      if (!customer) {
         return res.status(404).json({ message: "Customer not found" });
       }
 
-      res.json(customerId);
+      res.json(customer);
     } catch (error) {
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({ message: error.message });
@@ -124,9 +124,7 @@ class CustomerController {
 
   // Update an existing customer using both path params and query params
   updateCustomer = async (req, res) => {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const idCustomer = decoded.customerId;
+    const idCustomer = req.user.customerId;
 
     const { age, phoneNumber, firstName, lastName, middleName } = req.body; // Extract age, email, and password from query params
 
@@ -162,9 +160,7 @@ class CustomerController {
   };
 
   deleteCustomer = async (req, res) => {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const idCustomer = decoded.customerId;
+    const idCustomer = req.user.customerId;
 
     let result = null;
 

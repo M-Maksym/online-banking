@@ -19,9 +19,7 @@ export class CardController {
   }
 
   getAllCardsOfCustomer = async (req, res) => {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const idCustomer = decoded.customerId;
+    const idCustomer = req.user.customerId;
 
     try {
       this.validator.validateId(idCustomer);
@@ -87,9 +85,7 @@ export class CardController {
   createCard = async (req, res) => {
     const { pincode, type } = req.body;
 
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const idCustomer = decoded.customerId;
+    const { customerId } = req.user;
 
     const number = this.generator.generateCardNumber("mastercard");
     const cvv = this.generator.generateCVV();
@@ -97,7 +93,7 @@ export class CardController {
 
     try {
       this.validator.validateCard(number, cvv, pincode, dateExpiration, type);
-      this.validator.validateId(idCustomer);
+      this.validator.validateId(customerId);
 
       const idCard = await this.CardService.createCard(
         number,
@@ -105,7 +101,7 @@ export class CardController {
         cvv,
         dateExpiration,
         type,
-        idCustomer
+        customerId
       );
 
       res.status(201).json({ id: idCard });

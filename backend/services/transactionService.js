@@ -62,7 +62,6 @@ export class TransactionService {
     req
   ) {
     const commission = amount > 1000 ? 1 : amount * 0.1;
-    const token = req.cookies.token;
     try {
       const senderCardResponse = await fetch(
         `http://localhost:3001/api/cards-number?number=${senderCardNumber}`

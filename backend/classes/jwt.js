@@ -4,24 +4,33 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export class Jwt {
-  generateToken(customerId) {
-    const payload = { customerId };
+  generateToken(customer) {
+    const payload = {
+      customerId: customer.idCustomer,
+      firstName: customer.firstName,
+      lastname: customer.lastName,
+      number: customer.phoneNumber,
+    };
     const options = { expiresIn: "1h" };
     return jwt.sign(payload, process.env.SECRET_KEY, options);
   }
 
   verifyToken(req, res, next) {
-    const token = req.cookies.token;
+    const token = req.headers["authorization"]?.split(" ")[1]; // Get token from the Authorization header
+
     if (!token) {
-      return res.status(401).json({ message: "No token provided" });
+      return res.status(403).send("Token required");
     }
-    try {
-      const id = jwt.verify(token, process.env.SECRET_KEY);
-      req.user = id;
+
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+      if (err) {
+        return res.status(401).send("Invalid token");
+      }
+
+      // If the token is valid, attach the decoded info to the request object
+      req.user = decoded;
       next();
-    } catch (err) {
-      res.clearCookie("token");
-      return res.status(401).json({ message: "Invalid token" });
-    }
+      console.log("for the fuck sake of debugging");
+    });
   }
 }
