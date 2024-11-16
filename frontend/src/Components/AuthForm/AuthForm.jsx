@@ -10,29 +10,29 @@ const LoginForm = () => {
   const handleChange = (e) => {
     const input = e.target.value;
 
-    if (input.length === 1 && input !== '+') {
-      setError('Номер повинен починатися зі знака "+"');
-      return;
-    }
-    else if (/^[+]?\d*$/.test(input)) {
-      if (input.length <= 13) { 
-        setPhoneNumber(input);
-        setError('');
-      } else {
-        setError('Номер телефону не може бути довшим за 12 символів.');
-      }
-    } else {
-      setError('Вводьте лише цифри та символ "+".');
-    }
+    // if (input.length === 1 && input !== '+') {
+    //   setError('Номер повинен починатися зі знака "+"');
+    //   return;
+    // }
+    // else if (/^[+]?\d*$/.test(input)) {
+    //   if (input.length <= 13) { 
+    //     setPhoneNumber(input);
+    //     setError('');
+    //   } else {
+    //     setError('Номер телефону не може бути довшим за 12 символів.');
+    //   }
+    // } else {
+    //   setError('Вводьте лише цифри та символ "+".');
+    // }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!/^\+\d{12}$/.test(phoneNumber)) {
-      setError('Введіть коректний номер телефону у форматі +************ (12 символів)');
-      return;
-    }
-    setError('');
+    // e.preventDefault();
+    // if (!/^\+\d{12}$/.test(phoneNumber)) {
+    //   setError('Введіть коректний номер телефону у форматі +************ (12 символів)');
+    //   return;
+    // }
+    // setError('');
 
     navigate("/AuthorizationConfirm", { state: { phoneNumber } });
   };
@@ -52,7 +52,7 @@ const LoginForm = () => {
           maxLength="13"
           className={classes.loginInput}
         />
-        {error && <p className={classes.error}>{error}</p>}
+        {/* {error && <p className={classes.error}>{error}</p>} */}
         <button type="submit" className={classes.loginButton}>Надіслати SMS</button>
       </form>
       <p className={classes.loginFooter}>
