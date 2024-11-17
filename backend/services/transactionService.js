@@ -6,7 +6,7 @@ export class TransactionService {
     this.transactionRepository = TransactionRepository;
   }
 
-  async getAllTransactionsOfCards(idCustomer, token) {
+  async getAllTransactionsOfCards(token) {
     try {
       const response = await fetch(`http://localhost:3001/api/cards-customer`, {
         method: "GET",
