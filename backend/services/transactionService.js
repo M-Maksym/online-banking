@@ -8,16 +8,13 @@ export class TransactionService {
 
   async getAllTransactionsOfCards(idCustomer, token) {
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/cards/customer/${idCustomer}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Use Bearer token
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:3001/api/cards-customer`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Use Bearer token
+        },
+      });
 
       if (!response.ok) {
         throw new HttpError("Error fetching cards", 500);
@@ -62,7 +59,7 @@ export class TransactionService {
     req
   ) {
     const token = req.headers["authorization"]?.split(" ")[1]; // Extract token from Authorization header
-    const commission = amount > 1000 ? 1 : amount * 0.1;
+    const commission = amount > 1000 ? amount * 0.1 : 1;
 
     try {
       const senderCardResponse = await fetch(
