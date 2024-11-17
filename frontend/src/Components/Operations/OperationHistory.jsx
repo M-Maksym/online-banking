@@ -1,5 +1,6 @@
 import { Grid2, Grid, Box } from '@mui/material';
 import React from 'react';
+import axios from 'axios';
 import style from './OperationHist.module.css'
 
 const dummyHistory = [
@@ -115,6 +116,32 @@ const renderTransaction = (elem) => {
     </Grid>;
 };
 const History = () => {
+    React.useEffect(()=>{
+        getTransInfo();
+    }, [])
+    const getTransInfo = async () => {
+        // Отримуємо токен з localStorage
+        const token = localStorage.getItem('loginToken');
+
+        // Перевіряємо, чи токен існує
+        if (!token) {
+            console.error('Token not found');
+            return;
+        }
+
+        try {
+            // Робимо запит з JWT у заголовку
+            const response = await axios.get('http://localhost:3001/api/transactions', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json' // За потреби можна додати Content-Type
+                }
+            });
+            console.log('Transaction Data:', response.data);
+        } catch (error) {
+            console.error('Error fetching transaction data:', error);
+        }
+    };
     return(
         <Grid2 container className={style.main} direction={'column'}>
             <Grid2 item>

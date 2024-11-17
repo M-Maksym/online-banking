@@ -68,7 +68,7 @@ export class TransactionService {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Use Bearer token
+            //Authorization: `Bearer ${token}`, // Use Bearer token
           },
         }
       );
