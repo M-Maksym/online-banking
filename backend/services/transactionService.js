@@ -14,7 +14,7 @@ export class TransactionService {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Cookie: `token=${token}`, // Fixed token syntax
+            Authorization: `Bearer ${token}`, // Use Bearer token
           },
         }
       );
@@ -61,10 +61,19 @@ export class TransactionService {
     destination,
     req
   ) {
+    const token = req.headers["authorization"]?.split(" ")[1]; // Extract token from Authorization header
     const commission = amount > 1000 ? 1 : amount * 0.1;
+
     try {
       const senderCardResponse = await fetch(
-        `http://localhost:3001/api/cards-number?number=${senderCardNumber}`
+        `http://localhost:3001/api/cards-number?number=${senderCardNumber}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Use Bearer token
+          },
+        }
       );
 
       if (!senderCardResponse.ok) {
@@ -78,7 +87,8 @@ export class TransactionService {
       }
 
       senderCard.balance -= amount - commission;
-      //creating an transaction
+
+      // Create a transaction
       const result = await this.transactionRepository.createTransaction(
         type,
         amount,
@@ -87,14 +97,16 @@ export class TransactionService {
         destination
       );
 
+      // Update sender balance
       await fetch(`http://localhost:3001/api/cards/${senderCard.idCard}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Cookie: `token=${token}`,
+          Authorization: `Bearer ${token}`, // Use Bearer token
         },
         body: JSON.stringify({ balance: senderCard.balance }),
       });
+
       return { result };
     } catch (error) {
       console.error(error);
@@ -109,16 +121,30 @@ export class TransactionService {
     receiverCardNumber,
     req
   ) {
+    const token = req.headers["authorization"]?.split(" ")[1]; // Extract token from Authorization header
     const commission = amount > 1000 ? 1 : amount * 0.001;
 
     try {
-      const token = req.cookies.token;
       const senderCardResponse = await fetch(
-        `http://localhost:3001/api/cards-number?number=${senderCardNumber}`
+        `http://localhost:3001/api/cards-number?number=${senderCardNumber}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Use Bearer token
+          },
+        }
       );
 
       const receiverCardResponse = await fetch(
-        `http://localhost:3001/api/cards-number?number=${receiverCardNumber}`
+        `http://localhost:3001/api/cards-number?number=${receiverCardNumber}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Use Bearer token
+          },
+        }
       );
 
       if (!senderCardResponse.ok) {
@@ -152,7 +178,7 @@ export class TransactionService {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Cookie: `token=${token}`,
+          Authorization: `Bearer ${token}`, // Use Bearer token
         },
         body: JSON.stringify({ balance: senderCard.balance }),
       });
@@ -162,7 +188,7 @@ export class TransactionService {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Cookie: `token=${token}`,
+          Authorization: `Bearer ${token}`, // Use Bearer token
         },
         body: JSON.stringify({ balance: receiverCard.balance }),
       });
