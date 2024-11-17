@@ -12,16 +12,12 @@ export class TransactionController {
   }
   //may be used an id for this or token
   async getAllTransactionsOfCards(req, res) {
-    const idCustomer = req.user.customerId;
-
+    const token = req.headers["authorization"]?.split(" ")[1];
     //cardNumbers = cardNumbers.split(",").map((cardNumber) => cardNumber.trim());
 
     try {
       const transactions =
-        await this.transactionService.getAllTransactionsOfCards(
-          idCustomer,
-          token
-        );
+        await this.transactionService.getAllTransactionsOfCards(token);
       res.status(200).json(transactions);
     } catch (error) {
       if (error instanceof HttpError) {
