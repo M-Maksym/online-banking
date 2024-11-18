@@ -1,4 +1,4 @@
-import { Box, Input, Typography, InputAdornment, Grid, Modal } from '@mui/material';
+import { Box, Input, Typography, InputAdornment, Grid, Modal} from '@mui/material';
 import React from 'react';
 import style from './Deposit.module.css';
 import { ReactComponent as CardIcon } from './assets/card.svg';
@@ -16,8 +16,60 @@ function Deposit() {
     const [iban, setIban] = React.useState();
     const [abonent, setAbonent] = React.useState();
     const [success, setSuccess] = React.useState(false);
-    const [money, setMoney] = React.useState();    
-
+    const [money, setMoney] = React.useState(); 
+    const [cards, setCards] = React.useState([]);
+    const [activeCards, setActiveCards] = React.useState(0);  
+    const [error, setError] = React.useState(''); 
+    
+    //download info about cards
+    React.useEffect(() => {
+        const fetchCards = async () => {
+            const token = localStorage.getItem('loginToken');
+            try {
+                const response = await fetch('http://localhost:3001/api/cards-customer', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    setCards(data);
+                } else {
+                    console.error('Помилка:', response.statusText);
+                }
+            } catch (e) {
+                console.error('Сталася помилка:', e);
+            }
+        };
+    
+        fetchCards();
+    }, []);
+    
+    //dispalying balance
+    const CardDisplay = ({ cardNumber }) => {
+        const maskCardNumber = (number) => {
+          if (!number) return '';
+          const firstDigits = number.slice(0, 4);
+          const lastDigits = number.slice(-4);
+          const maskedSection = number.slice(4, -4).replace(/\d/g, '*');
+          return `${firstDigits} ${maskedSection} ${lastDigits}`;
+        };
+      
+        return <div>Картка {maskCardNumber(cardNumber)}</div>;
+      };
+    //function when user want change card
+    const handleActiveCard = () =>{
+        const numberOfCards = cards?.length;
+        if(activeCards === numberOfCards-1){
+            setActiveCards(0)
+        }else{
+            setActiveCards(activeCards+1)
+        }
+    }
+    //when user click on airplane and we handle lable for modal windows
     const handleService = (lable) =>{
         setService(lable);
         switch (lable){
@@ -157,10 +209,7 @@ function Deposit() {
             setIban(correctedInput);
             e.target.value = correctedInput;
         }
-    };
-    
-    
-    
+    }; 
     
     const handleAbonent = (e) => {
         const input = e.target.value;
@@ -173,15 +222,82 @@ function Deposit() {
     const closeModal = () => {
         setModalVisible(false)
     }
-    const sendTransaction = () => {
-        if(money&&opeationNumber){
-           closeModal();
-            setSuccess(true);
-            const timer = setTimeout(() => setSuccess(false), 3000);
-            return () => clearTimeout(timer); 
+    //function when user click on send
+    const sendTransaction = async () => {
+        //not sent if haven`t enough number
+        switch (service) {
+            case 'Картка': {
+                const maxLength = 16;
+                if (opeationNumber.length < maxLength) {
+                    setError('Помилка, введена недостатня кілкість символів');
+                    return;
+                }
+                break;
+            }
+            case 'Номер телефону': {
+                const maxLength = 12;
+                if (opeationNumber.length < maxLength) {
+                    setError('Помилка, введена недостатня кілкість символів');
+                    return;
+                }
+                break;
+            }
+            case 'Абонентський номер': {
+                const maxLength = 10;
+                if (opeationNumber.length < maxLength) {
+                    setError('Помилка, введена недостатня кілкість символів');
+                    return;
+                }
+                break;
+            }
+            case 'IBAN': {
+                const maxLength = 34;
+                if (opeationNumber.length < maxLength) {
+                    setError('Помилка, введена недостатня кілкість символів');
+                    return;
+                }
+                break;
+            }
+            default:
+                console.log('Shoto ne to');
         }
-        
-    }
+        if (money && opeationNumber) {
+            const operationType = service === 'Картка' ? 'Transfer' : 'Payment';
+            const requestBody = {
+                type: operationType,
+                amount: money,
+                senderCardNumber: cards[activeCards].number,
+                destination: opeationNumber
+            };
+            const token = localStorage.getItem('loginToken')
+            try {
+
+                const response = await fetch('http://localhost:3001/api/transactions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+    
+                if (response.ok) {
+                    closeModal();
+                    setSuccess(true);
+                    setError('')
+                    const timer = setTimeout(() => setSuccess(false), 3000);
+                    return () => clearTimeout(timer);
+                } else {
+                    setError("Помилка при відправці транзакції")
+                    console.error('Помилка при відправці транзакції:', response.statusText);
+                }
+            } catch (error) {
+                alert('Помилка при відправці транзакції')
+                console.error('Сталася помилка:', error);
+            }
+        }
+    };
+    
     const closeTransInfo = () => {
         setSuccess(false)
     }
@@ -449,7 +565,7 @@ function Deposit() {
                                                     fontWeight: 400,
                                                     fontSize: "20px"
                                                 }}>
-                                    Картка 5152 **** **** 7284
+                                    Картка <CardDisplay cardNumber={cards[activeCards]?.number} />
                                     </Typography>
                                     <Box sx={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
                                     <img src={require('./assets/master.png')} alt='system' style={{width:"90px"}}/>
@@ -460,10 +576,10 @@ function Deposit() {
                                                     fontSize: "28px"
                                                 }}
                                     >
-                                        ₴2000000
+                                        ₴{cards[activeCards]?.balance}
                                     </Typography>
                                     </Box>
-                                    <Box sx={{display:"flex", alignItems:"center", justifyContent:"space-between", marginTop:"20px"}}>
+                                    <Box sx={{display:"flex", alignItems:"center", justifyContent:"space-between", marginTop:"20px", cursor:"pointer"}} onClick={()=>{handleActiveCard()}}>
                                         <Typography
                                             sx={{
                                                 fontFamily: "Dela",
@@ -538,6 +654,7 @@ function Deposit() {
                                 </Typography>
                             </Box>
                         </Box>
+                        <Typography sx={{textAlign:'center', fontSize:"24px", fontWeight:400, color:"#E50404", fontFamily:"Dela"}}>{error}</Typography>
                         <Box sx={{width:"100%", display:"flex", justifyContent:"center", marginTop:"30px"}}>
                         <button className={style.sendBtn} onClick={()=>sendTransaction()}>Надіслати</button>
                         </Box>

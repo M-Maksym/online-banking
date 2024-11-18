@@ -14,7 +14,7 @@ export class CardRepository {
 
   async getAllCardsOfCustomer(idCustomer) {
     const [rows] = await this.pool.query(
-      "SELECT idCard, number, cvv, dateExpiration, type FROM Card WHERE idCustomer = ?",
+      "SELECT idCard, number, cvv, dateExpiration, type, balance FROM Card WHERE idCustomer = ?",
       [idCustomer]
     );
     return rows;
@@ -22,7 +22,7 @@ export class CardRepository {
 
   async getCardById(idCard) {
     const [rows] = await this.pool.query(
-      "SELECT number, cvv, dateExpiration, idCustomer, type FROM Card WHERE idCard =?",
+      "SELECT number, cvv, dateExpiration, idCustomer, type, balance FROM Card WHERE idCard =?",
       [idCard]
     );
     return rows[0];
