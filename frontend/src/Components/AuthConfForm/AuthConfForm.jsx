@@ -60,11 +60,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import classes from "./AuthConfForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 const AuthConfForm = ({ number }) => {
   const [code, setCode] = useState(["", "", "", ""]);
   const [phone, setPhone] = useState(123456742);
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
+
+  const handleReturn = (e) => {
+    navigate("/Authorization");
+  };
 
   const handleChange = (event) => {
     setPassword(event.target.value);
@@ -94,6 +101,7 @@ const AuthConfForm = ({ number }) => {
       const token = localStorage.getItem("loginToken");
       console.log("TokenLS: ", token);
       
+      navigate("/");
     } catch (error) {
       console.error("Error during axios request:", error);
       alert("An error occurred during the login request");
@@ -103,7 +111,7 @@ const AuthConfForm = ({ number }) => {
   return (
     <div className={classes.smsContainer}>
       <h1 className={classes.smsTitle}>Увійти</h1>
-      <p className={classes.phone}>{phone}</p>
+      <p className={classes.phone}>+{phone}</p>
       <div className={classes.passwordInputContainer}>
         <input
           type="password"
@@ -115,6 +123,7 @@ const AuthConfForm = ({ number }) => {
         <button onClick={handleSubmit} className={classes.passwordButton}>
           Далі
         </button>
+        <p onClick={handleReturn}>Увійти за іншим номером</p>
       </div>
     </div>
   );
