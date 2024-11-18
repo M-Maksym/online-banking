@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
 
 .container{
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     background-color: #DD7600;
