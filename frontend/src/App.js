@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("loginToken");
     setIsLoggedIn(!!token);
-  }, []);
+  });
 
   return (
     <>

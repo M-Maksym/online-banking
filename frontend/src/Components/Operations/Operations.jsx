@@ -73,6 +73,145 @@ const Operations = () => {
   const [success, setSuccess] = React.useState(false);
   const [cardOperationModal, setCardOperationModal] = React.useState(false);
   const [cardOperationText, setCardOperationText] = React.useState('Чи справді Ви бажаєте видалити картку?');
+  const [cards, setCards] = React.useState([]);
+  const [activeCards, setActiveCards] = React.useState(0);  
+  const [ethernetLimit, setEthernetLimit] = React.useState(20000);
+  const [cashLimit, setCashLimit] = React.useState(100000);
+  const [cardLimit, setCardLimit] = React.useState(50000);
+
+    React.useEffect(()=>{
+        update()
+    })
+    const update = () =>{
+        setEthernetLimit(sessionStorage.getItem('ethernetLimit') || 20000)
+        setCashLimit(sessionStorage.getItem('cashLimit') || 100000)
+        setCardLimit(sessionStorage.getItem('cardLimit') || 50000)
+    }
+  
+  //download info about cards
+  React.useEffect(() => {
+    fetchCards();
+  }, []);
+
+  const fetchCards = async () => {
+    const token = localStorage.getItem('loginToken');
+    try {
+        const response = await fetch('http://localhost:3001/api/cards-customer', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            setCards(data);
+            console.log(data);
+        } else {
+            console.error('Помилка:', response.statusText);
+        }
+    } catch (e) {
+        console.error('Сталася помилка:', e);
+    }
+};
+  //function when user want change card
+  const handleActiveCard = () =>{
+    const numberOfCards = cards?.length;
+    if(activeCards === numberOfCards-1){
+        setActiveCards(0)
+    }else{
+        setActiveCards(activeCards+1)
+    }
+}
+const createCard = async () => {
+  const token = localStorage.getItem('loginToken');
+  let cardId;
+  const modifyBalance = async (cardId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/cards/${cardId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          'balance': 1000
+        })
+      });
+
+      if (response.ok) {
+        console.log('changed balance');
+        fetchCards(); 
+      } else {
+        console.error('Помилка:', response.statusText);
+      }
+    } catch (e) {
+      console.error('Сталася помилка:', e);
+    }
+  };
+
+  try {
+    const response = await fetch('http://localhost:3001/api/cards', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': '*/*', // Доданий заголовок Accept
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'Custom User Agent' // Доданий User-Agent, якщо це потрібно
+      },
+      body: JSON.stringify({
+        'pincode': 1111,
+        'type': 'credit'
+      })
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      console.log('created card', responseData);
+      cardId = responseData.id; // Оновлено отримання id
+
+      await modifyBalance(cardId); // Додано виклик функції
+    } else {
+      console.error('Помилка:', response.statusText);
+    }
+  } catch (e) {
+    console.error('Сталася помилка:', e);
+  }
+
+  
+};
+const deleteCard = async () => {
+  const token = localStorage.getItem('loginToken');
+
+  try {
+    const response = await fetch(`http://localhost:3001/api/cards/${cards[activeCards]?.idCard}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': '*/*',
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'Custom User Agent'
+      },
+    });
+
+    if (response.ok) {
+      console.log('deleted card');
+      setSuccess(true);
+      setCardOperationModal(false);
+      fetchCards();
+      const timer = setTimeout(() => setSuccess(false), 3000);
+      return () => clearTimeout(timer);
+    } else {
+      console.error('Помилка:', response.statusText);
+    }
+  } catch (e) {
+    console.error('Сталася помилка:', e);
+  }
+
+  
+};
+
   const changeActiveTab = (i) =>{
     setActiveTab(i)
   }
@@ -87,23 +226,39 @@ const cardOperation = (lable) =>{
   setCardOperationModal(true);
 }
 const sendRequest = () => {
-  setSuccess(true);
-  setCardOperationModal(false);
-  const timer = setTimeout(() => setSuccess(false), 5000);
-  return () => clearTimeout(timer);
+  switch (cardOperationText) {
+    case 'Чи справді Ви бажаєте видалити картку?': {
+      deleteCard();
+      break;
+    }
+    default: {
+      console.warn('Невідомий текст операції:', cardOperationText);
+      break;
+    }
+  }
+  // setSuccess(true);
+  // setCardOperationModal(false);
+  // const timer = setTimeout(() => setSuccess(false), 3000);
+  // return () => clearTimeout(timer);
 }
+const formatExpirationDate = (isoDate) => {
+  const date = new Date(isoDate);
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${month}/${day}`;
+};
   return (
     <Grid container direction={'row'} justifyContent={'space-around'} style={{marginTop:"77px", marginBottom:"60px"}}>
       <Grid item size={{ xs: 10, sm: 10, md: 4, lg: 4, xl: 3 }} className={style.main}>
         <Grid container direction={'column'} justifyContent={'center'}>
-          <Card balance={2000000} number={'5252 8822 8133 7284'} date={'09/25'} brand={require('./assets/mastercard.svg').default} />
-          <img src={require('./assets/arrowDown.svg').default} alt='arrowDown'  className={style.arrowDown}/>
+          <Card balance={cards[activeCards]?.balance} number={cards[activeCards]?.number} date={formatExpirationDate(cards[activeCards]?.dateExpiration)} brand={require('./assets/mastercard.svg').default} />
+          <img src={require('./assets/arrowDown.svg').default} alt='arrowDown'  className={style.arrowDown} onClick={()=>handleActiveCard()}/>
           <Grid item justifyContent={'center'}>
             <Grid container justifyContent={'space-between'}>
               <button className={activeTab === 0 ? style.operationBtnActive : style.operationBtn} onClick={() => changeActiveTab(0)}>
               Історія транзакцій
               </button>
-              <button className={activeTab === -1 ? style.operationBtnActive : style.operationBtn} onClick={() => changeActiveTab(-1)}>
+              <button className={activeTab === -1 ? style.operationBtnActive : style.operationBtn} onClick={() => createCard()}>
               Створити картку
               </button>
             </Grid>
@@ -140,7 +295,7 @@ const sendRequest = () => {
                   Оплата в інтернеті
                 </Box>
                 <Box className={style.main__option}>
-                  Доступно: 20 000 UAH на день
+                  Доступно: {ethernetLimit} UAH на день
                 </Box>
               </Grid>
             </Grid>
@@ -155,7 +310,7 @@ const sendRequest = () => {
                   Зняття готівки
                 </Box>
                 <Box className={style.main__option}>
-                  Доступно: 100 000 UAH на день
+                  Доступно: {cashLimit} UAH на день
                 </Box>
               </Grid>
             </Grid>
@@ -170,7 +325,7 @@ const sendRequest = () => {
                   Переказ на картку
                 </Box>
                 <Box className={style.main__option}>
-                  Доступно: 50 000 UAH на день
+                  Доступно: {cardLimit} UAH на день
                 </Box>
               </Grid>
             </Grid>

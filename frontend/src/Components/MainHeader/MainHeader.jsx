@@ -1,7 +1,4 @@
 import React from 'react'
-
-import Authorization from '../Authorization/Authorization'
-import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import './mainheaderstyle.css'
 
 export default function MainHeader() {

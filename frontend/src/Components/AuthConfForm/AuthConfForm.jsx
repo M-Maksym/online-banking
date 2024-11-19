@@ -4,7 +4,6 @@ import classes from "./AuthConfForm.module.css";
 import { useNavigate } from "react-router-dom";
 
 const AuthConfForm = ({ number }) => {
-  const [code, setCode] = useState(["", "", "", ""]);
   const [phone, setPhone] = useState(number);
   const [password, setPassword] = useState('');
 
