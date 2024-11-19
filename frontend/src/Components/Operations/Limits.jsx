@@ -3,6 +3,51 @@ import React from 'react';
 import style from './Limits.module.css'
 
 const Limits = () => {
+    const [ethernet, setEthernet] = React.useState(20000);
+    const [cash, setCash] = React.useState(100000);
+    const [card, setCard] = React.useState(50000);
+    const [ethernetLimit, setEthernetLimit] = React.useState(20000);
+    const [cashLimit, setCashLimit] = React.useState(100000);
+    const [cardLimit, setCardLimit] = React.useState(50000);
+
+    React.useEffect(()=>{
+        update()
+    })
+    const update = () =>{
+        setEthernetLimit(sessionStorage.getItem('ethernetLimit') || 20000)
+        setCashLimit(sessionStorage.getItem('cashLimit') || 100000)
+        setCardLimit(sessionStorage.getItem('cardLimit') || 50000)
+    }
+
+    const handleEthernet = (e) => {
+        const input = e.target.value;
+        if (/^\d*$/.test(input) && input.length <= 10) {
+          setEthernet(input)
+        }
+    };
+    const handleClickEthernet = () => {
+        sessionStorage.setItem('ethernetLimit', ethernet);
+    };   
+    const handleCash = (e) => {
+        const input = e.target.value;
+        if (/^\d*$/.test(input) && input.length <= 10) {
+          setCash(input)
+        }
+    };
+    const handleClickCash = () => {
+        sessionStorage.setItem('cashLimit', cash);
+    };   
+    const handleCard = (e) => {
+        const input = e.target.value;
+        if (/^\d*$/.test(input) && input.length <= 10) {
+          setCard(input)
+        }
+    };
+    const handleClickCard = () => {
+        sessionStorage.setItem('cardLimit', card);
+    };      
+      
+
     return(
         <Grid2 container className={style.main} direction={'column'}>
             <Grid2 item>
@@ -18,7 +63,7 @@ const Limits = () => {
                                 Оплата в Інтернеті  
                             </Box>
                             <Box className={style.limit__secInfo}>
-                                Доступно 20 000 з 20 000 UAH
+                                Доступно {ethernetLimit} з {ethernetLimit} UAH
                             </Box>
                             <Box className={style.limit__inputLabel}>
                                 Новий ліміт
@@ -26,6 +71,8 @@ const Limits = () => {
                             <Input
                                 disableUnderline
                                 placeholder='10 000'
+                                onChange={handleEthernet}
+                                value={ethernet}
                                 sx={{backgroundColor:"#4E4E4E", borderRadius:"28px", padding:"15px 26px", fontFamily: "Dela", color: "#B8B8B8", fontWeight: 400, fontSize: "20px", marginBottom:"20px"}}
                                 endAdornment={<InputAdornment position="end">
                                     <Box sx={{ fontFamily: "Dela", color: "#B8B8B8", fontWeight: 400, fontSize: "20px" }}>
@@ -37,7 +84,7 @@ const Limits = () => {
                                 'aria-label': 'weight',
                                 }}
                             />
-                            <button className={style.limit__save}>
+                            <button className={style.limit__save} onClick={()=>handleClickEthernet()}>
                                 Зберегти
                             </button>
                         </Grid>
@@ -48,7 +95,7 @@ const Limits = () => {
                                 Зняття готівки
                             </Box>
                             <Box className={style.limit__secInfo}>
-                                Доступно 100 000 з 100 000 UAH
+                                Доступно {cashLimit} з {cashLimit} UAH
                             </Box>
                             <Box className={style.limit__inputLabel}>
                                 Новий ліміт
@@ -56,6 +103,8 @@ const Limits = () => {
                             <Input
                                 disableUnderline
                                 placeholder='120 000'
+                                onChange={handleCash}
+                                value={cash}
                                 sx={{backgroundColor:"#4E4E4E", borderRadius:"28px", padding:"15px 26px", fontFamily: "Dela", color: "#B8B8B8", fontWeight: 400, fontSize: "20px", marginBottom:"20px"}}
                                 endAdornment={<InputAdornment position="end">
                                     <Box sx={{ fontFamily: "Dela", color: "#B8B8B8", fontWeight: 400, fontSize: "20px" }}>
@@ -67,7 +116,7 @@ const Limits = () => {
                                 'aria-label': 'weight',
                                 }}
                             />
-                            <button className={style.limit__save}>
+                            <button className={style.limit__save} onClick={()=>{handleClickCash()}}>
                                 Зберегти
                             </button>
                         </Grid>
@@ -78,7 +127,7 @@ const Limits = () => {
                                 Переказ на картку
                             </Box>
                             <Box className={style.limit__secInfo}>
-                                Доступно 50 000 з 50 000 UAH
+                                Доступно {cardLimit} з {cardLimit} UAH
                             </Box>
                             <Box className={style.limit__inputLabel}>
                                 Новий ліміт
@@ -86,6 +135,8 @@ const Limits = () => {
                             <Input
                                 disableUnderline
                                 placeholder='40 000'
+                                onChange={handleCard}
+                                value={card}
                                 sx={{backgroundColor:"#4E4E4E", borderRadius:"28px", padding:"15px 26px", fontFamily: "Dela", color: "#B8B8B8", fontWeight: 400, fontSize: "20px", marginBottom:"20px"}}
                                 endAdornment={<InputAdornment position="end">
                                     <Box sx={{ fontFamily: "Dela", color: "#B8B8B8", fontWeight: 400, fontSize: "20px" }}>
@@ -97,7 +148,7 @@ const Limits = () => {
                                 'aria-label': 'weight',
                                 }}
                             />
-                            <button className={style.limit__save}>
+                            <button className={style.limit__save} onClick={()=>{handleClickCard()}}>
                                 Зберегти
                             </button>
                         </Grid>

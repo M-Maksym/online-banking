@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import style from './OperationHist.module.css'
 
-const dummyHistory = [
+let dummyHistory = [
     {
         date:'Сьогодні',
         transaction:[
@@ -41,6 +41,58 @@ const dummyHistory = [
         ]
     }
 ]
+
+function transformTransactions(transactions, currentBalance) {
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        const today = new Date();
+        const yesterday = new Date();
+        yesterday.setDate(today.getDate() - 1);
+
+        if (date.toDateString() === today.toDateString()) {
+            return 'Сьогодні';
+        } else if (date.toDateString() === yesterday.toDateString()) {
+            return 'Вчора';
+        } else {
+            const options = { day: 'numeric', month: 'long' };
+            return date.toLocaleDateString('uk-UA', options);
+        }
+    };
+
+    // Сортуємо транзакції за датою від найновішої до найстарішої
+    transactions.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+
+    let balance = currentBalance;
+
+    // Групування транзакцій за датами
+    const grouped = {};
+
+    transactions.forEach((transaction) => {
+        const dateKey = formatDate(transaction.dateCreated);
+
+        const mode = transaction.typeTransaction === 'Transfer' ? 'send' : 'get';
+        const suma = parseFloat(transaction.amount) * (mode === 'send' ? -1 : 1);
+
+        // Вираховуємо баланс для цієї транзакції
+        balance -= suma;
+
+        if (!grouped[dateKey]) {
+            grouped[dateKey] = { date: dateKey, transaction: [] };
+        }
+
+        grouped[dateKey].transaction.push({
+            senderNumber: transaction.senderCardNumber,
+            recieverNumber: transaction.destination,
+            suma: suma,
+            balance: balance,
+            mode: mode,
+        });
+    });
+
+    // Перетворюємо об'єкт груп у масив
+    return Object.values(grouped);
+}
+
 const renderTransaction = (elem) => {
     return elem.mode === 'send' ?       
      <Grid container direction="row" alignItems="center" justifyContent="space-between">
@@ -116,30 +168,54 @@ const renderTransaction = (elem) => {
     </Grid>;
 };
 const History = () => {
+    const [card, setCard] = React.useState();
     React.useEffect(()=>{
+        fetchCards();
         getTransInfo();
     }, [])
     const getTransInfo = async () => {
-        // Отримуємо токен з localStorage
         const token = localStorage.getItem('loginToken');
-
-        // Перевіряємо, чи токен існує
         if (!token) {
             console.error('Token not found');
             return;
         }
 
         try {
-            // Робимо запит з JWT у заголовку
+
             const response = await axios.get('http://localhost:3001/api/transactions', {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json' // За потреби можна додати Content-Type
+                    'Content-Type': 'application/json'
                 }
             });
-            console.log('Transaction Data:', response.data);
+            const history = transformTransactions(response.data, card[0]?.balance);
+            dummyHistory = history;
+            console.log('Transaction Data:', history);
+            console.log('dummy', dummyHistory)
         } catch (error) {
             console.error('Error fetching transaction data:', error);
+        }
+    };
+    const fetchCards = async () => {
+        const token = localStorage.getItem('loginToken');
+        try {
+            const response = await fetch('http://localhost:3001/api/cards-customer', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                setCard(data);
+                console.log(data);
+            } else {
+                console.error('Помилка:', response.statusText);
+            }
+        } catch (e) {
+            console.error('Сталася помилка:', e);
         }
     };
     return(
