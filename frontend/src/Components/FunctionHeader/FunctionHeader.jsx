@@ -14,7 +14,7 @@ export default function () {
   <a className='navtext' href="/Deposit">Перекази</a>
   </div>
   <div className="nav_el">
-  <a className='navtext' href="/">Конвертор</a>
+  <a className='navtext' href="/Convertor">Конвертор</a>
   </div>
   </div>
   <div className="nav_el">
