@@ -27,15 +27,12 @@ class CustomerController {
 
   // Get a customer by ID from the URL path param
   getCustomerById = async (req, res) => {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const idCustomer = decoded.customerId;
-
+    const { customerId } = req.user;
     let customer = null;
 
     try {
-      this.validator.validateId(idCustomer);
-      customer = await this.CustomerService.getCustomerById(idCustomer);
+      this.validator.validateId(customerId);
+      customer = await this.CustomerService.getCustomerById(customerId);
 
       if (!customer) {
         return res.status(404).json({ message: "Customer not found" });
@@ -124,20 +121,20 @@ class CustomerController {
 
   // Update an existing customer using both path params and query params
   updateCustomer = async (req, res) => {
-    const idCustomer = req.user.customerId;
+    const { customerId } = req.user;
 
     const { age, phoneNumber, firstName, lastName, middleName } = req.body; // Extract age, email, and password from query params
 
     let customer = null;
     try {
-      this.validator.validateId(idCustomer);
+      this.validator.validateId(customerId);
       this.validator.validateAge(age);
       this.validator.validatePhone(phoneNumber);
 
       //TODO
       //valieta password for update
       customer = await this.CustomerService.updateCustomer(
-        idCustomer,
+        customerId,
         age,
         phoneNumber,
         firstName,

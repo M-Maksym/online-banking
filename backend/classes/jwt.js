@@ -30,7 +30,6 @@ export class Jwt {
       // If the token is valid, attach the decoded info to the request object
       req.user = decoded;
       next();
-      console.log("for the fuck sake of debugging");
     });
   }
 }
