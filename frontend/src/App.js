@@ -14,6 +14,7 @@ import Account from './Components/Account/AccountPage';
 import Deposit from './Components/Deposit/Deposit';
 import FunctionHeader from './Components/FunctionHeader/FunctionHeader';
 import Profile from './Components/Account/AccountPage';
+import Convertor from './Components/Convertor/Convertor';
 
 function App() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
         <Route path="/AuthorizationConfirm" element={<AuthorizationConfirm />} />
         <Route path="/Account" element={<Account />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/Convertor" element={<Convertor />} />
       </Routes>
     </>
   );
