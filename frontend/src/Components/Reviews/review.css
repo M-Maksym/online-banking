@@ -60,7 +60,7 @@ background-repeat: no-repeat;
 }
 .revtext{
     font-family: Dela;
-    font-size: 30px;
+    font-size: 28px;
     text-align: center;
     margin-top: 0;
     margin-bottom: 0;
@@ -101,7 +101,7 @@ background-repeat: no-repeat;
     }
 
     .revtext {
-        font-size: 21px; /* уменьшено на 30% от 30px */
+        font-size: 20px; /* уменьшено на 30% от 30px */
         padding-right: 7px; /* уменьшено на 30% от 10px */
         padding-left: 7px; /* уменьшено на 30% от 10px */
     }

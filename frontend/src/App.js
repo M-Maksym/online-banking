@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import LandingPage from './Components/LandingPage/LandingPage';
@@ -12,14 +12,25 @@ import Advantages from './Components/Advantages/Advantages';
 import Reviews from './Components/Reviews/Reviews';
 import Account from './Components/Account/AccountPage';
 import Deposit from './Components/Deposit/Deposit';
+import FunctionHeader from './Components/FunctionHeader/FunctionHeader';
+import Profile from './Components/Account/AccountPage';
 
 function App() {
   const location = useLocation();
   const hideHeaderPaths = ["/Authorization", "/AuthorizationConfirm"];
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  
+  useEffect(() => {
+    const token = localStorage.getItem("loginToken");
+    setIsLoggedIn(!!token);
+  }, []);
 
   return (
     <>
-      {!hideHeaderPaths.includes(location.pathname) && <MainHeader />}
+      {!hideHeaderPaths.includes(location.pathname) && (
+        isLoggedIn ? <FunctionHeader /> : <MainHeader />
+      )}
       <Routes>
         <Route path="/" element={<AboutUs />} />
         <Route path="/Reviews" element={<Reviews />} />
@@ -31,6 +42,7 @@ function App() {
         <Route path="/Deposit" element={<Deposit />} />
         <Route path="/AuthorizationConfirm" element={<AuthorizationConfirm />} />
         <Route path="/Account" element={<Account />} />
+        <Route path="/Profile" element={<Profile />} />
       </Routes>
     </>
   );
